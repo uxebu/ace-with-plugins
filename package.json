@@ -1,0 +1,34 @@
+{
+  "name": "ace-with-plugins",
+  "version": "0.0.1",
+  "description": "Ace editor with additional plugins",
+  "main": " ",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "jasmine-node tests",
+    "build": "webpack -p",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uxebu/ace-with-plugins.git"
+  },
+  "keywords": [
+    "ace",
+    "javascript"
+  ],
+  "author": "Georg Lang <lang@uxebu.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/uxebu/ace-with-plugins/issues"
+  },
+  "homepage": "https://github.com/uxebu/ace-with-plugins",
+  "dependencies": {
+    "jasmine-node": "^1.14.5",
+    "webpack": "^1.4.0-beta5",
+    "webpack-dev-server": "^1.6.4"
+  }
+}
