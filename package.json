@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "jasmine-node tests",
+    "test": "jasmine-node test",
     "build": "webpack -p",
     "watch": "webpack --watch",
     "start": "webpack-dev-server"
