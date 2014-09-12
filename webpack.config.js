@@ -2,11 +2,11 @@ var path = require('path');
 
 module.exports = {
   entry: {
-    'src/editor': './src/editor.js'
+    'examples/editor': './examples/editor.js'
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   resolve: {
     // you can now require('file') instead of require('file.js')
