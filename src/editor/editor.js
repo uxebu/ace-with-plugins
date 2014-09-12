@@ -1,5 +1,3 @@
-define(function() {
-
   function Editor(domNodeId) {
     this._domNodeId = domNodeId;
     this._init();
@@ -8,8 +6,13 @@ define(function() {
   Editor.prototype = {
 
     _init: function() {
+      ace.require("ace/ext/language_tools");
       var editor = ace.edit(this._domNodeId);
       editor.getSession().setMode('ace/mode/javascript');
+      editor.setOptions({
+        enableBasicAutocompletion: true
+      });
+
       editor.getSession().setTabSize(2);
       document.getElementById(this._domNodeId).style.fontSize = '12px';
       document.getElementById(this._domNodeId).style.backgroundColor = 'white';
@@ -30,5 +33,4 @@ define(function() {
     }
   };
 
-  return Editor;
-});
+  module.exports = Editor;
