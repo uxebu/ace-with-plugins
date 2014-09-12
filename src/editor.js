@@ -1,1 +1,0 @@
-document.write('Hello from editor.js');
