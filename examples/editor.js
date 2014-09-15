@@ -8,6 +8,7 @@ var parserTime;
 
 var editor = new Editor('editorNode');
 //editor.setContent('function foo(){var num = 0;} num = 9;');
+editor.setContent('var foo = 42; y = foo * 2; z = foo / 2');
 
 parse();
 
@@ -27,11 +28,16 @@ function parse() {
 
   context.setCode(syntax);
 
-  var id = context.identify(4);
-  console.log('Name', id.declaration.name);
-  console.log('Range', id.declaration.range);
+  var identification = context.identify(4);
+  var cursorPosition = editor._editor.selection.getCursor();
+  console.log('Cursor Position', cursorPosition);
+
+  var identifier = identification.identifier;
+  var declaration = identification.declaration;
+  var references = identification.references;
+
+  console.log('Identifier', identifier);
+  console.log('References', references);
+
   debugger;
-
-
 }
-
