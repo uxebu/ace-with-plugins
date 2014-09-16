@@ -26,18 +26,13 @@ function parse() {
     tolerant: true
   });
 
-  context.setCode(syntax);
+  context.setCode(code);
+//  context = new esrefactor.Context(code);
 
-  var identification = context.identify(4);
-  var cursorPosition = editor._editor.selection.getCursor();
-  console.log('Cursor Position', cursorPosition);
 
-  var identifier = identification.identifier;
-  var declaration = identification.declaration;
-  var references = identification.references;
+//  var identifier = identification.identifier;
+//  var declaration = identification.declaration;
+//  var references = identification.references;
 
-  console.log('Identifier', identifier);
-  console.log('References', references);
 
-  debugger;
 }
