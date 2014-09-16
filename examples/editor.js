@@ -3,6 +3,7 @@ var esprima = require('esprima');
 var escope = require('escope');
 var esrefactor = require('esrefactor');
 var context;
+var code;
 var syntax;
 var parserTime;
 
@@ -16,6 +17,8 @@ function parse() {
     context = new esrefactor.Context();
   }
 
+  code = editor.getContent();
+
   var syntax = esprima.parse(code, {
     loc: true,
     range: true,
@@ -25,6 +28,13 @@ function parse() {
 
   context.setCode(code);
 
+  editor._editor.selection.on("changeCursor", function () {
+    var cursorPosition = editor._editor.session.doc.positionToIndex(editor._editor.selection.getCursor());
+    console.log('Cursor Position', cursorPosition);
+    var identification = context.identify(cursorPosition);
+    console.log('Identification', identification);
+
+  });
 
 //  var identifier = identification.identifier;
 //  var declaration = identification.declaration;
