@@ -1,5 +1,11 @@
 var Editor = require('../src/editor/editor');
 
+
+function findLineBreakPosition(codeAsString) {
+  var linebreak = /\n/;
+  return codeAsString.search(linebreak);
+}
+
 describe('detect linebreak', function() {
   it('linebreak should be on position 12', function(){
     var codeAsString = 'var str = 4;\n';
