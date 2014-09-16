@@ -9,13 +9,11 @@ function calculateAbsolutePositionOfCursor(lines, cursorPosition) {
   var absolutePosition = 0;
 
   if (lines.length > 1) {
-    for (var i = 0; i < lines.length-1; i++) {
+    for (var i = 0; i < lines.length - 1; i++) {
       absolutePosition += lines[i].length;
-      console.log('Absolute Position', absolutePosition);
     }
     return absolutePosition += cursorPosition.column + 1;
-  }
-  else {
+  } else {
     return cursorPosition.column;
   }
 }
