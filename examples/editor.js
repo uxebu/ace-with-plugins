@@ -12,8 +12,6 @@ editor.setContent('function foo(){ var test = 0;}\nvar test = 4\nvar foo = 42; y
 parse();
 
 function parse() {
-  code = editor.getContent();
-
   if (!context) {
     context = new esrefactor.Context();
   }
@@ -26,7 +24,6 @@ function parse() {
   });
 
   context.setCode(code);
-//  context = new esrefactor.Context(code);
 
 
 //  var identifier = identification.identifier;
