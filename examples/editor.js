@@ -7,8 +7,7 @@ var syntax;
 var parserTime;
 
 var editor = new Editor('editorNode');
-//editor.setContent('function foo(){var num = 0;} num = 9;');
-editor.setContent('var foo = 42; y = foo * 2; z = foo / 2');
+editor.setContent('function foo(){ var test = 0;}\nvar test = 4\nvar foo = 42; y = foo * 2; z = foo / 2');
 
 parse();
 
