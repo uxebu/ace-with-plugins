@@ -1,8 +1,10 @@
+//DONE
 //one variable name
-
-//two different variable names
-
+//two different variable names NOT NESCESSARY
 //two equal variable names
+
+//TODO
+
 
 //three equal variable names
 
@@ -20,15 +22,16 @@
 
 var esrefactor = require('esrefactor');
 
-
-
 function getPositionOfOccurence(sourceCode, currentCursorPosition) {
   var context = new esrefactor.Context(sourceCode);
   var identifier = context.identify(currentCursorPosition);
   if (identifier === undefined) {
     return [];
   }
-  return [identifier.references[0].range[0]];
+  if (identifier.references.length == 1) {
+    return [identifier.references[0].range[0]];
+  }
+  return  [identifier.references[0].range[0], identifier.references[1].range[0]];
 }
 
 describe('simple source code, with none or one occurence', function () {
@@ -38,8 +41,8 @@ describe('simple source code, with none or one occurence', function () {
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([]);
   });
 
-  describe('one occurence', function() {
-    it('should return correct position inside string', function(){
+  describe('one occurence', function () {
+    it('should return correct position inside string', function () {
       var sourceCode = 'var xyz = 0;';
       var currentCursorPosition = 4;
       expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4]);
@@ -52,7 +55,14 @@ describe('simple source code, with none or one occurence', function () {
   });
 });
 
+describe('simple source code, with two occurence', function () {
+  it('should return two positions', function () {
+    var sourceCode = 'var xyz = 0; xyz++';
+    var currentCursorPosition = 4;
+    expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4, 13]);
 
+  });
+});
 
 
 
