@@ -48,6 +48,16 @@ describe('simple source code, with none or one occurence', function () {
 
   describe('one occurence', function() {
     it('should return correct position inside string', function(){
+      function getPositionOfOccurence(sourceCode, currentCursorPosition) {
+        var context = new esrefactor.Context(sourceCode);
+        var identifier = context.identify(currentCursorPosition);
+        if (identifier === undefined) {
+          identifier = [];
+        }
+        return [identifier.references[0].range[0]];
+      }
+
+
       var sourceCode = 'var xyz = 0;';
       var currentCursorPosition = 4;
       expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4]);
