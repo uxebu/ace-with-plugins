@@ -62,6 +62,11 @@ describe('simple source code, with two occurence', function () {
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4, 13]);
 
   });
+  it('should return two positions when cursor is at second occurence', function () {
+    var sourceCode = 'var xyz = 0; xyz++';
+    var currentCursorPosition = 13;
+    expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4, 13]);
+  });
 });
 
 
