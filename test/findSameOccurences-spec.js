@@ -24,26 +24,19 @@ var esrefactor = require('esrefactor');
 function getPositionOfOccurence(sourceCode, currentCursorPosition) {
   var context = new esrefactor.Context(sourceCode);
   var identifier = context.identify(currentCursorPosition);
+
   if (identifier === undefined) {
     return [];
   }
 
   var positions = [];
+  var index = -1;
 
+  while(identifier.references.length > index + 1) {
+    index++;
+    positions.push(identifier.references[index].range[0]);
+  }
 
-  if (identifier.references.length > 0) {
-    positions.push(identifier.references[0].range[0]);
-  }
-  if (identifier.references.length > 1) {
-    positions.push(identifier.references[1].range[0]);
-  }
-  if (identifier.references.length > 2) {
-    positions.push(identifier.references[2].range[0])
-  }
-  if (identifier.references.length > 4) {
-    positions.push(identifier.references[3].range[0])
-    positions.push(identifier.references[4].range[0])
-  }
   return positions;
 }
 
