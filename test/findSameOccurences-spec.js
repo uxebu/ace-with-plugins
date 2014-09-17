@@ -5,7 +5,6 @@
 
 //TODO
 
-
 //three equal variable names
 
 //variable names with an uppercase char
@@ -28,13 +27,24 @@ function getPositionOfOccurence(sourceCode, currentCursorPosition) {
   if (identifier === undefined) {
     return [];
   }
-  if (identifier.references.length == 1) {
-    return [identifier.references[0].range[0]];
+
+  var positions = [];
+
+
+  if (identifier.references.length > 0) {
+    positions.push(identifier.references[0].range[0]);
   }
-  if (identifier.references.length === 2) {
-    return [identifier.references[0].range[0], identifier.references[1].range[0]];
+  if (identifier.references.length > 1) {
+    positions.push(identifier.references[1].range[0]);
   }
-  return  [identifier.references[0].range[0], identifier.references[1].range[0], identifier.references[2].range[0]];
+  if (identifier.references.length > 2) {
+    positions.push(identifier.references[2].range[0])
+  }
+  if (identifier.references.length > 4) {
+    positions.push(identifier.references[3].range[0])
+    positions.push(identifier.references[4].range[0])
+  }
+  return positions;
 }
 
 describe('simple source code, with none or one occurence', function () {
