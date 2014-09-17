@@ -18,6 +18,10 @@
 //keywords
 //properties
 
+var esrefactor = require('esrefactor');
+
+
+
 function getPositionOfOccurence(sourceCode, currentCursorPosition) {
   var word = sourceCode.substr(currentCursorPosition).match(/\w+/);
   if (word != 'var') {
@@ -28,6 +32,15 @@ function getPositionOfOccurence(sourceCode, currentCursorPosition) {
 
 describe('simple source code, with none or one occurence', function () {
   it('should not find variable', function () {
+    function getPositionOfOccurence(sourceCode, currentCursorPosition) {
+      var context = new esrefactor.Context(sourceCode);
+      var identifier = context.identify(currentCursorPosition);
+      if (identifier === undefined) {
+        identifier = [];
+      }
+      return identifier;
+    }
+
     var sourceCode = 'var xyz = 0;';
     var currentCursorPosition = 0;
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([]);
