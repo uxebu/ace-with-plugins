@@ -31,7 +31,10 @@ function getPositionOfOccurence(sourceCode, currentCursorPosition) {
   if (identifier.references.length == 1) {
     return [identifier.references[0].range[0]];
   }
-  return  [identifier.references[0].range[0], identifier.references[1].range[0]];
+  if (identifier.references.length === 2) {
+    return [identifier.references[0].range[0], identifier.references[1].range[0]];
+  }
+  return  [identifier.references[0].range[0], identifier.references[1].range[0], identifier.references[2].range[0]];
 }
 
 describe('simple source code, with none or one occurence', function () {
@@ -66,6 +69,14 @@ describe('simple source code, with two occurence', function () {
     var sourceCode = 'var xyz = 0; xyz++';
     var currentCursorPosition = 13;
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4, 13]);
+  });
+});
+
+describe('simple source code, with three occurences', function () {
+  it('should return three positions', function () {
+    var sourceCode = 'var xyz = 0; xyz++; xyz = 4;';
+    var currentCursorPosition = 20;
+    expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4, 13, 20]);
   });
 });
 
