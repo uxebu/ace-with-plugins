@@ -23,24 +23,16 @@ var esrefactor = require('esrefactor');
 
 
 function getPositionOfOccurence(sourceCode, currentCursorPosition) {
-  var word = sourceCode.substr(currentCursorPosition).match(/\w+/);
-  if (word != 'var') {
-    return [currentCursorPosition];
+  var context = new esrefactor.Context(sourceCode);
+  var identifier = context.identify(currentCursorPosition);
+  if (identifier === undefined) {
+    return [];
   }
-  return [];
+  return [identifier.references[0].range[0]];
 }
 
 describe('simple source code, with none or one occurence', function () {
   it('should not find variable', function () {
-    function getPositionOfOccurence(sourceCode, currentCursorPosition) {
-      var context = new esrefactor.Context(sourceCode);
-      var identifier = context.identify(currentCursorPosition);
-      if (identifier === undefined) {
-        identifier = [];
-      }
-      return identifier;
-    }
-
     var sourceCode = 'var xyz = 0;';
     var currentCursorPosition = 0;
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([]);
@@ -48,16 +40,6 @@ describe('simple source code, with none or one occurence', function () {
 
   describe('one occurence', function() {
     it('should return correct position inside string', function(){
-      function getPositionOfOccurence(sourceCode, currentCursorPosition) {
-        var context = new esrefactor.Context(sourceCode);
-        var identifier = context.identify(currentCursorPosition);
-        if (identifier === undefined) {
-          identifier = [];
-        }
-        return [identifier.references[0].range[0]];
-      }
-
-
       var sourceCode = 'var xyz = 0;';
       var currentCursorPosition = 4;
       expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([4]);
