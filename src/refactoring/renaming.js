@@ -19,4 +19,6 @@ function getPositionOfOccurence(sourceCode, currentCursorPosition) {
   return positions;
 }
 
-module.exports = getPositionOfOccurence;
+module.exports = {
+  getPositionOfOccurence: getPositionOfOccurence
+};
