@@ -1,11 +1,9 @@
-var renaming = require('../refactoring/renaming');
-var EventEmitter = require('events').EventEmitter;
 var util = require('./_util');
+var Range = ace.require('ace/range').Range;
 
 function Ace(domNodeId) {
   this._domNodeId = domNodeId;
   this._init();
-  this._eventEmitter = new EventEmitter();
 }
 
 Ace.prototype = {
@@ -22,12 +20,6 @@ Ace.prototype = {
     editor.getSession().setTabSize(2);
     document.getElementById(this._domNodeId).style.fontSize = '12px';
     document.getElementById(this._domNodeId).style.backgroundColor = 'white';
-
-    var self = this;
-    editor.selection.on('changeCursor', function (_, selection) {
-      var sourceCode = self.getContent();
-      self._eventEmitter.emit('cursorMove', util.toAbsoluteCursorPosition(selection.getCursor(), sourceCode));
-    });
   },
 
   setContent: function(content) {
@@ -39,8 +31,18 @@ Ace.prototype = {
     return this._editor.getValue()
   },
 
-  onCursorMove: function(callback) {
-    this._eventEmitter.addListener('cursorMove', callback);
+  setMultipleCursorsTo: function(positions) {
+    this._setMarkers(positions);
+  },
+
+  _setMarkers: function(positions) {
+    var sourceCode = this.getContent();
+    var editor = this._editor;
+    positions.forEach(function(position) {
+      var rowCol = util.toRowColumnCursorPosition(position, sourceCode);
+      var range = new Range(rowCol.row, rowCol.column, rowCol.row, rowCol.column);
+      editor.multiSelect.addRange(range);
+    });
   }
 
 //  insertAtCursorPosition: function(s) {
