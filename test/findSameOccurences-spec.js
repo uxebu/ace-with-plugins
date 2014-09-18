@@ -14,7 +14,6 @@
 //keywords
 //properties
 
-
 var esrefactor = require('esrefactor');
 
 function getPositionOfOccurence(sourceCode, currentCursorPosition) {
@@ -125,3 +124,20 @@ describe('javascript token on cursor position', function () {
   });
 });
 
+describe('find occurences in and out of scopes', function () {
+  it('should return one position', function () {
+    var sourceCode = 'function foo(){var test = 4;} var test = 8;';
+    var currentCursorPosition = 21;
+    expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([19]);
+  });
+  it('should return one position', function () {
+    var sourceCode = 'function foo(){var test = 4;} var test = 8;';
+    var currentCursorPosition = 36;
+    expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([34]);
+  });
+  it('should return two position', function () {
+    var sourceCode = 'function foo(){var test = 4; test++;} var test = 8;';
+    var currentCursorPosition = 21;
+    expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([19, 29]);
+  });
+});
