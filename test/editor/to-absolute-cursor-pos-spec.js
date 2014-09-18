@@ -1,4 +1,5 @@
 function toAbsoluteCursorPosition(coordinates, sourceCode) {
+  var absolutePosition = coordinates.column;
   if (coordinates.row == 1) {
     return sourceCode.split('\n')[0].length + coordinates.column;
   }
@@ -6,10 +7,7 @@ function toAbsoluteCursorPosition(coordinates, sourceCode) {
     return sourceCode.split('\n')[0].length +
        sourceCode.split('\n')[1].length + coordinates.column;
   }
-  if (coordinates.column > 0) {
-    return coordinates.column;
-  }
-  return 0;
+  return absolutePosition;
 }
 
 var firstLine = 'line 0 ...0123456789';
