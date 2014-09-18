@@ -14,7 +14,7 @@ var sourceCode = [
   firstLine,
   secondLine,
   'line 2 7890',
-  ''
+  'line 3'
 ].join('\n');
 
 describe('calculate the absolute cursor position from given: row+column and sourcecode', function() {
@@ -46,6 +46,11 @@ describe('calculate the absolute cursor position from given: row+column and sour
     it('for 2x3', function() {
       expect(toAbsoluteCursorPosition({row: 2, column: 3}, sourceCode)).toBe(twoLinesLength + 3);
     });
+  });
+
+  it('the last character', function() {
+    var fullLength = sourceCode.length + 1 - sourceCode.split('\n').length;
+    expect(toAbsoluteCursorPosition({row: 3, column: 6}, sourceCode)).toBe(fullLength);
   });
 
 });
