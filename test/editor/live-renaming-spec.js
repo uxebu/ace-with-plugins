@@ -27,15 +27,19 @@ describe('live renaming', function() {
     editor.enableLiveRenaming();
   });
 
-  function fakeCursorPositionChangeTo(pos) {
+  function fakeCursorMoveTo(pos) {
     onCursorMoveCallback && onCursorMoveCallback(pos);
+  }
+
+  function fakeThatRenamableVariablesWereFoundAt(cursorPositions) {
+    renaming.getPositionOfOccurence.andReturn(cursorPositions);
   }
 
   it('should call `renaming.getPositionOfOccurence()` when cursor position changed', function() {
     var cursorPosition = 42;
-    fakeCursorPositionChangeTo(cursorPosition);
-
     var sourceCode = editor.getContent();
+
+    fakeCursorMoveTo(cursorPosition);
     expect(renaming.getPositionOfOccurence).toHaveBeenCalledWith(sourceCode, cursorPosition);
   });
 
@@ -47,25 +51,20 @@ describe('live renaming', function() {
 
     it('set when `getPositionOfOccurence()` returned some', function() {
       var cursorPositions = [0, 23, 42];
-      renaming.getPositionOfOccurence.andReturn(cursorPositions);
-
-      fakeCursorPositionChangeTo(0);
-
+      fakeThatRenamableVariablesWereFoundAt(cursorPositions);
+      fakeCursorMoveTo(0);
       expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
     });
 
     it('set exactly those returned by `getPositionOfOccurence()`', function() {
       var cursorPositions = [0, 10, 20];
-      renaming.getPositionOfOccurence.andReturn(cursorPositions);
-
-      fakeCursorPositionChangeTo(0);
-
+      fakeThatRenamableVariablesWereFoundAt(cursorPositions);
+      fakeCursorMoveTo(0);
       expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
     });
 
     it('DONT call `setMultipleCursorsTo` if `getPositionOfOccurence()` had not returned any', function() {
-      fakeCursorPositionChangeTo(0);
-
+      fakeCursorMoveTo(0);
       expect(mockEditorImplementation.setMultipleCursorsTo).not.toHaveBeenCalled();
     });
 
