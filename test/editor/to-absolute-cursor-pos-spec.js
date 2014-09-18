@@ -1,12 +1,4 @@
-function toAbsoluteCursorPosition(coordinates, sourceCode) {
-  var absolutePosition = coordinates.column;
-  var row = 0;
-  while (coordinates.row > row) {
-    absolutePosition += sourceCode.split('\n')[row].length;
-    row++;
-  }
-  return absolutePosition;
-}
+var toAbsoluteCursorPosition = require('../../src/editor/_util').toAbsoluteCursorPosition;
 
 var firstLine = 'line 0 ...0123456789';
 var secondLine = '0123456789 line1 78';
