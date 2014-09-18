@@ -2,6 +2,10 @@ function toAbsoluteCursorPosition(coordinates, sourceCode) {
   if (coordinates.row == 1) {
     return sourceCode.split('\n')[0].length + coordinates.column;
   }
+  if (coordinates.row == 2) {
+    return sourceCode.split('\n')[0].length +
+       sourceCode.split('\n')[1].length + coordinates.column;
+  }
   if (coordinates.column > 0) {
     return coordinates.column;
   }
@@ -9,9 +13,10 @@ function toAbsoluteCursorPosition(coordinates, sourceCode) {
 }
 
 var firstLine = 'line 0 ...0123456789';
+var secondLine = '0123456789 line1 78';
 var sourceCode = [
   firstLine,
-  '0123456789 line1 78',
+  secondLine,
   'line 2 7890',
   ''
 ].join('\n');
@@ -34,6 +39,16 @@ describe('calculate the absolute cursor position from given: row+column and sour
     });
     it('for 1x10', function() {
       expect(toAbsoluteCursorPosition({row: 1, column: 10}, sourceCode)).toBe(firstLineLength + 10);
+    });
+  });
+
+  describe('on the third row', function() {
+    var twoLinesLength = firstLine.length + secondLine.length;
+    it('for 2x0', function() {
+      expect(toAbsoluteCursorPosition({row: 2, column: 0}, sourceCode)).toBe(twoLinesLength);
+    });
+    it('for 2x3', function() {
+      expect(toAbsoluteCursorPosition({row: 2, column: 3}, sourceCode)).toBe(twoLinesLength + 3);
     });
   });
 
