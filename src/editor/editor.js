@@ -19,7 +19,7 @@ Editor.prototype = {
   },
 
   _handleRenaming: function(cursorPosition) {
-    var renameCandidatesFoundAt = renaming.getPositionOfOccurence(this.getContent(), cursorPosition);
+    var renameCandidatesFoundAt = renaming.getPositionsOfCandidates(this.getContent(), cursorPosition);
     if (renameCandidatesFoundAt.length) {
       this._editor.setMultipleCursorsTo(renameCandidatesFoundAt);
     }

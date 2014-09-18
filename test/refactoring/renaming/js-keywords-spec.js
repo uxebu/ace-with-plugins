@@ -1,4 +1,4 @@
-var getPositionOfOccurence = require('../../../src/refactoring/renaming.js').getPositionOfOccurence;
+var getPositionOfOccurence = require('../../../src/refactoring/renaming.js').getPositionsOfCandidates;
 
 describe('javascript token on cursor position', function () {
   it('should return empty array', function () {

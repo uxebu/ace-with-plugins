@@ -17,7 +17,7 @@ describe('live renaming', function() {
     mockEditorImplementation.onCursorMove.andCallFake(function(callback) {
       onCursorMoveCallback = callback;
     });
-    spyOn(renaming, 'getPositionOfOccurence').andReturn([]);
+    spyOn(renaming, 'getPositionsOfCandidates').andReturn([]);
 
     editor = new Editor(mockEditorImplementation);
     editor.enableLiveRenaming();
@@ -28,34 +28,34 @@ describe('live renaming', function() {
   }
 
   function fakeThatRenamableVariablesWereFoundAt(cursorPositions) {
-    renaming.getPositionOfOccurence.andReturn(cursorPositions);
+    renaming.getPositionsOfCandidates.andReturn(cursorPositions);
   }
 
 
   
 
-  it('should call `renaming.getPositionOfOccurence()` when cursor position changed', function() {
+  it('should call `renaming.getPositionsOfCandidates()` when cursor position changed', function() {
     var cursorPosition = 42;
     var sourceCode = editor.getContent();
 
     fakeCursorMoveTo(cursorPosition);
-    expect(renaming.getPositionOfOccurence).toHaveBeenCalledWith(sourceCode, cursorPosition);
+    expect(renaming.getPositionsOfCandidates).toHaveBeenCalledWith(sourceCode, cursorPosition);
   });
 
-  it('should NOT call `renaming.getPositionOfOccurence()` when cursor position had NOT changed', function() {
-    expect(renaming.getPositionOfOccurence).not.toHaveBeenCalled();
+  it('should NOT call `renaming.getPositionsOfCandidates()` when cursor position had NOT changed', function() {
+    expect(renaming.getPositionsOfCandidates).not.toHaveBeenCalled();
   });
 
   describe('multiple cursors', function() {
 
-    it('set exactly those returned by `getPositionOfOccurence()`', function() {
+    it('set exactly those returned by `getPositionsOfCandidates()`', function() {
       var cursorPositions = [0, 10, 20];
       fakeThatRenamableVariablesWereFoundAt(cursorPositions);
       fakeCursorMoveTo(0);
       expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
     });
 
-    it('DONT call `setMultipleCursorsTo` if `getPositionOfOccurence()` had not returned any', function() {
+    it('DONT call `setMultipleCursorsTo` if `getPositionsOfCandidates()` had not returned any', function() {
       fakeCursorMoveTo(0);
       expect(mockEditorImplementation.setMultipleCursorsTo).not.toHaveBeenCalled();
     });

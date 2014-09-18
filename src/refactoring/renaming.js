@@ -1,6 +1,6 @@
 var esrefactor = require('esrefactor');
 
-function getPositionOfOccurence(sourceCode, currentCursorPosition) {
+function getPositionsOfCandidates(sourceCode, currentCursorPosition) {
   var context = new esrefactor.Context(sourceCode);
   var identifier = context.identify(currentCursorPosition);
 
@@ -20,5 +20,5 @@ function getPositionOfOccurence(sourceCode, currentCursorPosition) {
 }
 
 module.exports = {
-  getPositionOfOccurence: getPositionOfOccurence
+  getPositionsOfCandidates: getPositionsOfCandidates
 };
