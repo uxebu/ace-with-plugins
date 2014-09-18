@@ -1,3 +1,5 @@
+
+
 //DONE
 //one variable name
 //two different variable names NOT NESCESSARY
@@ -12,27 +14,7 @@
 
 //TODO
 
-
-var esrefactor = require('esrefactor');
-
-function getPositionOfOccurence(sourceCode, currentCursorPosition) {
-  var context = new esrefactor.Context(sourceCode);
-  var identifier = context.identify(currentCursorPosition);
-
-  if (identifier === undefined) {
-    return [];
-  }
-
-  var positions = [];
-  var index = -1;
-
-  while (identifier.references.length > index + 1) {
-    index++;
-    positions.push(identifier.references[index].range[0]);
-  }
-
-  return positions;
-}
+var getPositionOfOccurence = require('../src/refactoring/renaming/renaming.js');
 
 describe('simple source code, with none or one occurence', function () {
   it('should not find variable', function () {
