@@ -1,18 +1,35 @@
 function toRowColumnCursorPosition(absolutePosition, sourceCode) {
-  var firstLine = sourceCode.split('\n')[0];
-  if (absolutePosition < firstLine.length) {
+  var lines = sourceCode.split('\n');
+
+  var lineLength = 0;
+  if (absolutePosition <= lineLength + lines[0].length) {
     return {row: 0, column: absolutePosition};
   }
-  return {row: 1, column: absolutePosition-firstLine.length};
+
+  lineLength += lines[0].length + 1;
+  if (absolutePosition < lineLength + lines[1].length) {
+    return {row: 1, column: absolutePosition - lineLength};
+  }
+
+  lineLength += lines[1].length + 1;
+  if (absolutePosition < lineLength + lines[1].length) {
+    return {row: 2, column: absolutePosition - lineLength};
+  }
+
+  lineLength += lines[2].length + 1;
+  lineLength += lines[3].length + 1;
+  if (absolutePosition < lineLength + lines[3].length) {
+    return {row: 4, column: absolutePosition - lineLength};
+  }
 }
 
-var firstLine = 'line 0 ...0123456789';
-var secondLine = '0123456789 line1 78';
+var firstLine =  '12345';
+var secondLine = '123';
 var sourceCode = [
   firstLine,
   secondLine,
-  'line 2 7890',
-  'line 3'
+  '1',
+  ''
 ].join('\n');
 
 describe('calculate the row+column cursor position from given: absolute position and sourcecode', function() {
@@ -22,17 +39,27 @@ describe('calculate the row+column cursor position from given: absolute position
       expect(toRowColumnCursorPosition(0, sourceCode)).toEqual({row: 0, column: 0});
     });
     it('at 10 (still first line)', function() {
-      expect(toRowColumnCursorPosition(10, sourceCode)).toEqual({row: 0, column: 10});
+      expect(toRowColumnCursorPosition(4, sourceCode)).toEqual({row: 0, column: 4});
     });
   });
 
-  describe('on the second line', function() {
-    it('for 1x0', function() {
-      expect(toRowColumnCursorPosition(20, sourceCode)).toEqual({row: 1, column: 0});
+  describe('after the first line', function() {
+    it('line 2', function() {
+      expect(toRowColumnCursorPosition(6, sourceCode)).toEqual({row: 1, column: 0});
     });
-//    it('for 1x10', function() {
-//      expect(toRowColumnCursorPosition({row: 1, column: 10}, sourceCode)).toEqual(firstLineLength + 10);
-//    });
+    it('line 3, for 41', function() {
+      expect(toRowColumnCursorPosition(11, sourceCode)).toEqual({row: 2, column: 1});
+    });
+    it('1 char lines, line 5', function() {
+      var sourceCode =
+        '1\n' +
+        '2\n' +
+        '3\n' +
+        '4\n' +
+        '5\n'
+        ;
+      expect(toRowColumnCursorPosition(8, sourceCode)).toEqual({row: 4, column: 0});
+    });
   });
 
 });
