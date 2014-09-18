@@ -1,35 +1,29 @@
-function Editor(domNodeId) {
-  this._domNodeId = domNodeId;
-  this._init();
+var renaming = require('../refactoring/renaming');
+
+function Editor(EditorClass, domNodeId) {
+  this._editor = new EditorClass(domNodeId);
 }
 
 Editor.prototype = {
 
-  _init: function() {
-    ace.require("ace/ext/language_tools");
-    var editor = ace.edit(this._domNodeId);
-    editor.getSession().setMode('ace/mode/javascript');
-    editor.setOptions({
-      enableBasicAutocompletion: true
-    });
-
-    editor.getSession().setTabSize(2);
-    document.getElementById(this._domNodeId).style.fontSize = '12px';
-    document.getElementById(this._domNodeId).style.backgroundColor = 'white';
-    this._editor = editor;
-  },
-
   setContent: function(content) {
-    this._editor.selectAll();
-    this._editor.insert(content);
+    this._editor.setContent(content);
   },
 
   getContent: function() {
-    return this._editor.getValue()
+    return this._editor.getContent();
   },
 
-  insertAtCursorPosition: function(s) {
-    this._editor.insert(s);
+  enableLiveRenaming: function() {
+    this._editor.onCursorMove(this._handleNewCursorPosition.bind(this));
+  },
+
+  _handleNewCursorPosition: function(cursorPosition) {
+    var variablePositions = renaming.getPositionOfOccurence(this.getContent(), cursorPosition);
+console.log(variablePositions);
+    if (variablePositions.length) {
+//      this._editor.placeMultipleCursorsAt(variablePositions);
+    }
   }
 };
 
