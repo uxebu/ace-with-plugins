@@ -9,12 +9,14 @@ describe('live renaming', function() {
     getContent: function() {
       return sourceCode;
     },
-    onCursorMove: function() {}
+    onCursorMove: function() {},
+    setMultipleCursorsTo: function() {}
   };
 
   var onCursorMoveCallback;
   beforeEach(function() {
     spyOn(mockEditorImplementation, 'onCursorMove');
+    spyOn(mockEditorImplementation, 'setMultipleCursorsTo');
     mockEditorImplementation.onCursorMove.andCallFake(function(callback) {
       onCursorMoveCallback = callback;
     });
@@ -41,5 +43,17 @@ describe('live renaming', function() {
     editor.enableLiveRenaming();
 
     expect(renaming.getPositionOfOccurence).not.toHaveBeenCalled();
+  });
+
+  it('should trigger setting of multiple cursors when `getPositionOfOccurence()` returned some', function() {
+    var editor = new Editor(mockEditorImplementation);
+    editor.enableLiveRenaming();
+
+    var cursorPositions = [0, 23, 42];
+    renaming.getPositionOfOccurence.andReturn(cursorPositions);
+
+    fakeCursorPositionChangeTo(0);
+
+    expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
   });
 });
