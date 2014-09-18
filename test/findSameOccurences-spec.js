@@ -6,13 +6,12 @@
 //variable names with an uppercase char
 //variable names with a lowdash char
 //variable names with a number
-
-//TODO
-//variable and name in comment
-
+//name in comment
 //dont find reserved words:
 //keywords
-//properties
+
+//TODO
+
 
 var esrefactor = require('esrefactor');
 
@@ -124,18 +123,23 @@ describe('javascript token on cursor position', function () {
   });
 });
 
-describe('find occurences in and out of scopes', function () {
-  it('should return one position', function () {
+describe('find occurences in the right scope', function () {
+  it('should find variable in function scope', function () {
     var sourceCode = 'function foo(){var test = 4;} var test = 8;';
     var currentCursorPosition = 21;
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([19]);
   });
-  it('should return one position', function () {
+  it('should find variable outside of function scope', function () {
     var sourceCode = 'function foo(){var test = 4;} var test = 8;';
     var currentCursorPosition = 36;
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([34]);
   });
-  it('should return two position', function () {
+  it('should find variables inside and outside of function scope', function () {
+    var sourceCode = 'function foo(){test = 4;} var test = 8;';
+    var currentCursorPosition = 34;
+    expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([30, 15]);
+  });
+  it('should find two variables in function scope', function () {
     var sourceCode = 'function foo(){var test = 4; test++;} var test = 8;';
     var currentCursorPosition = 21;
     expect(getPositionOfOccurence(sourceCode, currentCursorPosition)).toEqual([19, 29]);
