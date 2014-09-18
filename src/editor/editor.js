@@ -15,13 +15,14 @@ Editor.prototype = {
   },
 
   enableLiveRenaming: function() {
-    var self = this;
-    this._editor.onCursorMove(function() {
-      var positions = renaming.getPositionOfOccurence(self.getContent(), 42);
-      if (positions.length) {
-        self._editor.setMultipleCursorsTo(positions);
-      }
-    });
+    this._editor.onCursorMove(this._handleRenaming.bind(this));
+  },
+
+  _handleRenaming: function(cursorPosition) {
+    var renameCandidatesFoundAt = renaming.getPositionOfOccurence(this.getContent(), cursorPosition);
+    if (renameCandidatesFoundAt.length) {
+      this._editor.setMultipleCursorsTo(renameCandidatesFoundAt);
+    }
   }
 };
 
