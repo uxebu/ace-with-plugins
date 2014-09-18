@@ -1,10 +1,9 @@
 function toAbsoluteCursorPosition(coordinates, sourceCode) {
   var absolutePosition = coordinates.column;
-  if (coordinates.row > 0) {
-    absolutePosition += sourceCode.split('\n')[0].length;
-  }
-  if (coordinates.row > 1) {
-    absolutePosition += sourceCode.split('\n')[1].length;
+  var row = -1;
+  while (coordinates.row > row+1) {
+    row++;
+    absolutePosition += sourceCode.split('\n')[row].length;
   }
   return absolutePosition;
 }
