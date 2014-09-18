@@ -1,6 +1,6 @@
 function toAbsoluteCursorPosition(coordinates, sourceCode) {
   if (coordinates.row == 1) {
-    return sourceCode.split('\n')[0].length;
+    return sourceCode.split('\n')[0].length + coordinates.column;
   }
   if (coordinates.column > 0) {
     return coordinates.column;
@@ -28,8 +28,12 @@ describe('calculate the absolute cursor position from given: row+column and sour
   });
 
   describe('on the second row', function() {
+    var firstLineLength = firstLine.length;
     it('for 1x0', function() {
-      expect(toAbsoluteCursorPosition({row: 1, column: 0}, sourceCode)).toBe(firstLine.length);
+      expect(toAbsoluteCursorPosition({row: 1, column: 0}, sourceCode)).toBe(firstLineLength);
+    });
+    it('for 1x10', function() {
+      expect(toAbsoluteCursorPosition({row: 1, column: 10}, sourceCode)).toBe(firstLineLength + 10);
     });
   });
 
