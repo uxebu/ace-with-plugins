@@ -14,6 +14,7 @@ describe('live renaming', function() {
   };
 
   var onCursorMoveCallback;
+  var editor;
   beforeEach(function() {
     spyOn(mockEditorImplementation, 'onCursorMove');
     spyOn(mockEditorImplementation, 'setMultipleCursorsTo');
@@ -21,6 +22,9 @@ describe('live renaming', function() {
       onCursorMoveCallback = callback;
     });
     spyOn(renaming, 'getPositionOfOccurence').andReturn([]);
+
+    editor = new Editor(mockEditorImplementation);
+    editor.enableLiveRenaming();
   });
 
   function fakeCursorPositionChangeTo(pos) {
@@ -28,9 +32,6 @@ describe('live renaming', function() {
   }
 
   it('should call `renaming.getPositionOfOccurence()` when cursor position changed', function() {
-    var editor = new Editor(mockEditorImplementation);
-    editor.enableLiveRenaming();
-
     var cursorPosition = 42;
     fakeCursorPositionChangeTo(cursorPosition);
 
@@ -39,18 +40,12 @@ describe('live renaming', function() {
   });
 
   it('should NOT call `renaming.getPositionOfOccurence()` when cursor position had NOT changed', function() {
-    var editor = new Editor(mockEditorImplementation);
-    editor.enableLiveRenaming();
-
     expect(renaming.getPositionOfOccurence).not.toHaveBeenCalled();
   });
 
   describe('multiple cursors', function() {
 
     it('set when `getPositionOfOccurence()` returned some', function() {
-      var editor = new Editor(mockEditorImplementation);
-      editor.enableLiveRenaming();
-
       var cursorPositions = [0, 23, 42];
       renaming.getPositionOfOccurence.andReturn(cursorPositions);
 
@@ -60,9 +55,6 @@ describe('live renaming', function() {
     });
 
     it('set exactly those returned by `getPositionOfOccurence()`', function() {
-      var editor = new Editor(mockEditorImplementation);
-      editor.enableLiveRenaming();
-
       var cursorPositions = [0, 10, 20];
       renaming.getPositionOfOccurence.andReturn(cursorPositions);
 
@@ -72,9 +64,6 @@ describe('live renaming', function() {
     });
 
     it('DONT call `setMultipleCursorsTo` if `getPositionOfOccurence()` had not returned any', function() {
-      var editor = new Editor(mockEditorImplementation);
-      editor.enableLiveRenaming();
-
       fakeCursorPositionChangeTo(0);
 
       expect(mockEditorImplementation.setMultipleCursorsTo).not.toHaveBeenCalled();
