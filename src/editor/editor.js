@@ -17,8 +17,10 @@ Editor.prototype = {
   enableLiveRenaming: function() {
     var self = this;
     this._editor.onCursorMove(function() {
-      renaming.getPositionOfOccurence(self.getContent(), 42);
-      self._editor.setMultipleCursorsTo([0, 23, 42]);
+      var positions = renaming.getPositionOfOccurence(self.getContent(), 42);
+      if (positions.length) {
+        self._editor.setMultipleCursorsTo(positions);
+      }
     });
   }
 };

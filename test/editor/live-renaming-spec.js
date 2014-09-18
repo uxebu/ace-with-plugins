@@ -20,7 +20,7 @@ describe('live renaming', function() {
     mockEditorImplementation.onCursorMove.andCallFake(function(callback) {
       onCursorMoveCallback = callback;
     });
-    spyOn(renaming, 'getPositionOfOccurence');
+    spyOn(renaming, 'getPositionOfOccurence').andReturn([]);
   });
 
   function fakeCursorPositionChangeTo(pos) {
@@ -45,15 +45,40 @@ describe('live renaming', function() {
     expect(renaming.getPositionOfOccurence).not.toHaveBeenCalled();
   });
 
-  it('should trigger setting of multiple cursors when `getPositionOfOccurence()` returned some', function() {
-    var editor = new Editor(mockEditorImplementation);
-    editor.enableLiveRenaming();
+  describe('multiple cursors', function() {
 
-    var cursorPositions = [0, 23, 42];
-    renaming.getPositionOfOccurence.andReturn(cursorPositions);
+    it('set when `getPositionOfOccurence()` returned some', function() {
+      var editor = new Editor(mockEditorImplementation);
+      editor.enableLiveRenaming();
 
-    fakeCursorPositionChangeTo(0);
+      var cursorPositions = [0, 23, 42];
+      renaming.getPositionOfOccurence.andReturn(cursorPositions);
 
-    expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
+      fakeCursorPositionChangeTo(0);
+
+      expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
+    });
+
+    it('set exactly those returned by `getPositionOfOccurence()`', function() {
+      var editor = new Editor(mockEditorImplementation);
+      editor.enableLiveRenaming();
+
+      var cursorPositions = [0, 10, 20];
+      renaming.getPositionOfOccurence.andReturn(cursorPositions);
+
+      fakeCursorPositionChangeTo(0);
+
+      expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
+    });
+
+    it('DONT call `setMultipleCursorsTo` if `getPositionOfOccurence()` had not returned any', function() {
+      var editor = new Editor(mockEditorImplementation);
+      editor.enableLiveRenaming();
+
+      fakeCursorPositionChangeTo(0);
+
+      expect(mockEditorImplementation.setMultipleCursorsTo).not.toHaveBeenCalled();
+    });
+
   });
 });
