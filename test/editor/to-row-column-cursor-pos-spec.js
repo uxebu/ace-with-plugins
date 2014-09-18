@@ -1,26 +1,13 @@
 function toRowColumnCursorPosition(absolutePosition, sourceCode) {
   var lines = sourceCode.split('\n');
 
-  var lineLength = 0;
-  if (absolutePosition <= lineLength + lines[0].length) {
-    return {row: 0, column: absolutePosition};
+  var row = 0;
+  var lineLengths = 0;
+  while (absolutePosition > lineLengths + lines[row].length) {
+    lineLengths += lines[row].length + 1;
+    row++;
   }
-
-  lineLength += lines[0].length + 1;
-  if (absolutePosition < lineLength + lines[1].length) {
-    return {row: 1, column: absolutePosition - lineLength};
-  }
-
-  lineLength += lines[1].length + 1;
-  if (absolutePosition < lineLength + lines[1].length) {
-    return {row: 2, column: absolutePosition - lineLength};
-  }
-
-  lineLength += lines[2].length + 1;
-  lineLength += lines[3].length + 1;
-  if (absolutePosition < lineLength + lines[3].length) {
-    return {row: 4, column: absolutePosition - lineLength};
-  }
+  return {row: row, column: absolutePosition - lineLengths};
 }
 
 var firstLine =  '12345';
