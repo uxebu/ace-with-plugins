@@ -1,7 +1,7 @@
 var renaming = require('../refactoring/renaming');
 
-function Editor(EditorClass, domNodeId) {
-  this._editor = new EditorClass(domNodeId);
+function Editor(editor) {
+  this._editor = editor;
 }
 
 Editor.prototype = {
@@ -15,15 +15,7 @@ Editor.prototype = {
   },
 
   enableLiveRenaming: function() {
-    this._editor.onCursorMove(this._handleNewCursorPosition.bind(this));
-  },
-
-  _handleNewCursorPosition: function(cursorPosition) {
-    var variablePositions = renaming.getPositionOfOccurence(this.getContent(), cursorPosition);
-console.log(variablePositions);
-    if (variablePositions.length) {
-//      this._editor.placeMultipleCursorsAt(variablePositions);
-    }
+    renaming.getPositionOfOccurence(this.getContent(), 42)
   }
 };
 
