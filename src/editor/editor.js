@@ -15,7 +15,10 @@ Editor.prototype = {
   },
 
   enableLiveRenaming: function() {
-    renaming.getPositionOfOccurence(this.getContent(), 42)
+    var self = this;
+    this._editor.onCursorMove(function() {
+      renaming.getPositionOfOccurence(self.getContent(), 42)
+    });
   }
 };
 

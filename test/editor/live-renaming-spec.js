@@ -35,4 +35,11 @@ describe('live renaming', function() {
     var sourceCode = editor.getContent();
     expect(renaming.getPositionOfOccurence).toHaveBeenCalledWith(sourceCode, cursorPosition);
   });
+
+  it('should NOT call `renaming.getPositionOfOccurence()` when cursor position had NOT changed', function() {
+    var editor = new Editor(mockEditorImplementation);
+    editor.enableLiveRenaming();
+
+    expect(renaming.getPositionOfOccurence).not.toHaveBeenCalled();
+  });
 });
