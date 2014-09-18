@@ -3,12 +3,8 @@ var renaming = require('../../src/refactoring/renaming');
 
 describe('live renaming', function() {
 
-  var sourceCode = 'var foo = "bar"; foo = "FOO";';
-  // position:      01234567890    5    012345678
   var mockEditorImplementation = {
-    getContent: function() {
-      return sourceCode;
-    },
+    getContent: function() {return 'irrelevant, just will be compared';},
     onCursorMove: function() {},
     setMultipleCursorsTo: function() {}
   };
@@ -35,6 +31,9 @@ describe('live renaming', function() {
     renaming.getPositionOfOccurence.andReturn(cursorPositions);
   }
 
+
+  
+
   it('should call `renaming.getPositionOfOccurence()` when cursor position changed', function() {
     var cursorPosition = 42;
     var sourceCode = editor.getContent();
@@ -48,13 +47,6 @@ describe('live renaming', function() {
   });
 
   describe('multiple cursors', function() {
-
-    it('set when `getPositionOfOccurence()` returned some', function() {
-      var cursorPositions = [0, 23, 42];
-      fakeThatRenamableVariablesWereFoundAt(cursorPositions);
-      fakeCursorMoveTo(0);
-      expect(mockEditorImplementation.setMultipleCursorsTo).toHaveBeenCalledWith(cursorPositions);
-    });
 
     it('set exactly those returned by `getPositionOfOccurence()`', function() {
       var cursorPositions = [0, 10, 20];
