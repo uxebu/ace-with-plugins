@@ -21,7 +21,7 @@ describe('calculate the absolute cursor position from given: row+column and sour
   });
 
   describe('on the second row', function() {
-    var firstLineLength = firstLine.length;
+    var firstLineLength = firstLine.length + 1;
     it('for 1x0', function() {
       expect(toAbsoluteCursorPosition({row: 1, column: 0}, sourceCode)).toBe(firstLineLength);
     });
@@ -31,7 +31,7 @@ describe('calculate the absolute cursor position from given: row+column and sour
   });
 
   describe('on the third row', function() {
-    var twoLinesLength = firstLine.length + secondLine.length;
+    var twoLinesLength = firstLine.length + 1 + secondLine.length + 1;
     it('for 2x0', function() {
       expect(toAbsoluteCursorPosition({row: 2, column: 0}, sourceCode)).toBe(twoLinesLength);
     });
@@ -41,7 +41,7 @@ describe('calculate the absolute cursor position from given: row+column and sour
   });
 
   it('the last character', function() {
-    var fullLength = sourceCode.length + 1 - sourceCode.split('\n').length;
+    var fullLength = sourceCode.length;
     expect(toAbsoluteCursorPosition({row: 3, column: 6}, sourceCode)).toBe(fullLength);
   });
 
