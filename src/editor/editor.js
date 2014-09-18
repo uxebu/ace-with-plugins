@@ -12,17 +12,6 @@ Editor.prototype = {
 
   getContent: function() {
     return this._editor.getContent();
-  },
-
-  enableLiveRenaming: function() {
-    this._editor.onCursorMove(this._handleRenaming.bind(this));
-  },
-
-  _handleRenaming: function(cursorPosition) {
-    var renameCandidatesFoundAt = renaming.getPositionsOfCandidates(this.getContent(), cursorPosition);
-    if (renameCandidatesFoundAt.length) {
-      this._editor.setMultipleCursorsTo(renameCandidatesFoundAt);
-    }
   }
 };
 
