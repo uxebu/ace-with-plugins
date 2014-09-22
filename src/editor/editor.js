@@ -16,7 +16,9 @@ Editor.prototype = {
 
   renameAtCurrentPosition: function() {
     var candidatePositions = renaming.getPositionsOfCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
-    this._editor.setMultipleCursorsTo(candidatePositions);
+    if (candidatePositions.length) {
+      this._editor.setMultipleCursorsTo(candidatePositions);
+    }
   }
 };
 

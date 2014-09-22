@@ -21,7 +21,7 @@ describe('Editor.renameAtCurrentPosition()', function() {
     };
     editor = new Editor(aceEditor);
 
-    spyOn(renaming, 'getPositionsOfCandidates');
+    spyOn(renaming, 'getPositionsOfCandidates').andReturn([]);
     spyOn(editor, 'getContent').andCallFake(function() { return sourceCode; });
     spyOn(aceEditor, 'getAbsoluteCursorPosition').andCallFake(function() {return cursorPosition;});
     spyOn(aceEditor, 'setMultipleCursorsTo');
@@ -49,6 +49,18 @@ describe('Editor.renameAtCurrentPosition()', function() {
         fakeRenamingPositionsFound(positions);
         editor.renameAtCurrentPosition();
         expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(positions);
+      });
+
+      it('for no result, not at all', function() {
+        fakeRenamingPositionsFound([]);
+        editor.renameAtCurrentPosition();
+        expect(aceEditor.setMultipleCursorsTo).not.toHaveBeenCalled();
+      });
+
+      it('for many results, with the current cursor position as the last element', function() {
+      });
+
+      it('in case of an error, not at all', function() {
       });
 
     });
