@@ -17,6 +17,10 @@ Editor.prototype = {
   renameAtCurrentPosition: function() {
     var cursorPosition = this._editor.getAbsoluteCursorPosition();
     var candidatePositions = renaming.getPositionsOfCandidates(this.getContent(), cursorPosition);
+    this._setCursorsForRenaming(candidatePositions, cursorPosition);
+  },
+
+  _setCursorsForRenaming: function(candidatePositions, cursorPosition) {
     if (candidatePositions.length) {
       var candidatesWithCursorAtEnd = _moveValueToEndOfArray(candidatePositions, cursorPosition);
       this._editor.setMultipleCursorsTo(candidatesWithCursorAtEnd);
