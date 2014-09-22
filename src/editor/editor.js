@@ -12,6 +12,10 @@ Editor.prototype = {
 
   getContent: function() {
     return this._editor.getContent();
+  },
+
+  renameAtCurrentPosition: function() {
+    renaming.getPositionsOfCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
   }
 };
 
