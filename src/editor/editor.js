@@ -15,7 +15,8 @@ Editor.prototype = {
   },
 
   renameAtCurrentPosition: function() {
-    renaming.getPositionsOfCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
+    var candidatePositions = renaming.getPositionsOfCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
+    this._editor.setMultipleCursorsTo(candidatePositions);
   }
 };
 

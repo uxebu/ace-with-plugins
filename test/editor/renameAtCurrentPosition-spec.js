@@ -10,23 +10,47 @@ var renaming = require('../../src/refactoring/renaming');
 
 describe('Editor.renameAtCurrentPosition()', function() {
 
+  var cursorPosition = 0x42;
+  var editor;
+  var aceEditor;
+  var sourceCode = 'my pretty src';
+  beforeEach(function() {
+    aceEditor = {
+      getAbsoluteCursorPosition: function() {},
+      setMultipleCursorsTo: function() {}
+    };
+    editor = new Editor(aceEditor);
+
+    spyOn(renaming, 'getPositionsOfCandidates');
+    spyOn(editor, 'getContent').andCallFake(function() { return sourceCode; });
+    spyOn(aceEditor, 'getAbsoluteCursorPosition').andCallFake(function() {return cursorPosition;});
+    spyOn(aceEditor, 'setMultipleCursorsTo');
+  });
+
+  function fakeRenamingPositionsFound(positions) {
+    renaming.getPositionsOfCandidates.andReturn(positions);
+  }
+
   describe('Contract(s) with `renaming` module (to get rename-info)', function() {
 
-    var cursorPosition = 0x42;
-    var editor;
-    var sourceCode = 'my pretty src';
-    beforeEach(function() {
-      var aceEditor = {
-        getAbsoluteCursorPosition: function() { return cursorPosition }
-      };
-      editor = new Editor(aceEditor);
-      spyOn(editor, 'getContent').andCallFake(function() { return sourceCode; });
-      spyOn(renaming, 'getPositionsOfCandidates')
-    });
-
-    it('should call `getPositionsOfCandidates()` correctly', function() {
+    it('should call `getPositionsOfCandidates()` with sourceCode+cursorPosition', function() {
       editor.renameAtCurrentPosition();
       expect(renaming.getPositionsOfCandidates).toHaveBeenCalledWith(sourceCode, cursorPosition);
+    });
+
+  });
+
+  describe('result from `getPositionsOfCandidates()` shall be given correctly', function() {
+
+    describe('to `setMultipleCursorsTo()`', function() {
+
+      it('for one result', function() {
+        var positions = [1];
+        fakeRenamingPositionsFound(positions);
+        editor.renameAtCurrentPosition();
+        expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(positions);
+      });
+
     });
 
   });
