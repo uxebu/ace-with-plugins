@@ -45,7 +45,7 @@ describe('Editor.renameAtCurrentPosition()', function() {
     describe('to `setMultipleCursorsTo()`', function() {
 
       it('for one result', function() {
-        var positions = [1];
+        var positions = [cursorPosition];
         fakeRenamingPositionsFound(positions);
         editor.renameAtCurrentPosition();
         expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(positions);
@@ -58,6 +58,11 @@ describe('Editor.renameAtCurrentPosition()', function() {
       });
 
       it('for many results, with the current cursor position as the last element', function() {
+        var positions = [cursorPosition, 1, 23];
+        var expectedPositions = [1, 23, cursorPosition];
+        fakeRenamingPositionsFound(positions);
+        editor.renameAtCurrentPosition();
+        expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(expectedPositions);
       });
 
       it('in case of an error, not at all', function() {

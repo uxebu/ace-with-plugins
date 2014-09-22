@@ -15,11 +15,20 @@ Editor.prototype = {
   },
 
   renameAtCurrentPosition: function() {
-    var candidatePositions = renaming.getPositionsOfCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
+    var cursorPosition = this._editor.getAbsoluteCursorPosition();
+    var candidatePositions = renaming.getPositionsOfCandidates(this.getContent(), cursorPosition);
     if (candidatePositions.length) {
-      this._editor.setMultipleCursorsTo(candidatePositions);
+      var candidatesWithCursorAtEnd = _moveValueToEndOfArray(candidatePositions, cursorPosition);
+      this._editor.setMultipleCursorsTo(candidatesWithCursorAtEnd);
     }
   }
 };
+
+function _moveValueToEndOfArray(values, valueToBeMovedToEnd) {
+  var foundAt = values.indexOf(valueToBeMovedToEnd);
+  return values.slice(0, foundAt)
+    .concat(values.slice(foundAt + 1))
+    .concat(valueToBeMovedToEnd);
+}
 
 module.exports = Editor;
