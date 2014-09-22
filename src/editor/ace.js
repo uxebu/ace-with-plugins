@@ -31,6 +31,10 @@ Ace.prototype = {
     return this._editor.getValue()
   },
 
+  getAbsoluteCursorPosition: function() {
+    return util.toAbsoluteCursorPosition(this._editor.selection.getCursor(), this.getContent());
+  },
+
   setMultipleCursorsTo: function(positions) {
     this._setMarkers(positions);
   },
