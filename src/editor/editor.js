@@ -29,10 +29,15 @@ Editor.prototype = {
   }
 };
 
+function _removeValueFromArray(values, valueToBeRemoved) {
+  var foundAt = values.indexOf(valueToBeRemoved);
+  var sliceBeforeValue = values.slice(0, foundAt);
+  var sliceAfterValue = values.slice(foundAt + 1);
+  return sliceBeforeValue.concat(sliceAfterValue);
+}
+
 function _moveValueToEndOfArray(values, valueToBeMovedToEnd) {
-  var foundAt = values.indexOf(valueToBeMovedToEnd);
-  return values.slice(0, foundAt)
-    .concat(values.slice(foundAt + 1))
+  return _removeValueFromArray(values, valueToBeMovedToEnd)
     .concat(valueToBeMovedToEnd);
 }
 
