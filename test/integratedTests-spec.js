@@ -5,7 +5,6 @@ Editor.prototype.getIdentifiedReferences = function (codeAsString, position) {}
 
 
 describe('mocking getIdentifiedReferences', function() {
-
   it('should call getIdentifiedReferences', function(){
     var editor = new Editor();
 
@@ -32,5 +31,13 @@ describe('mocking getIdentifiedReferences', function() {
     editor.getIdentifiedReferences(code, currentCursorPosition);
     expect(editor.getIdentifiedReferences).toHaveBeenCalledWith(code, currentCursorPosition);
   });
+});
 
+describe('stub getIdentifiedReferences', function() {
+  it('should return array with one element', function(){
+    var editor = new Editor();
+    editor.getIdentifiedReferences();
+
+    expect(editor.getIdentifiedReferences()).toEqual([1]);
+  });
 });
