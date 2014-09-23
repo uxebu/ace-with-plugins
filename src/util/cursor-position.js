@@ -1,4 +1,4 @@
-function toAbsoluteCursorPosition(coordinates, sourceCode) {
+function toAbsolute(coordinates, sourceCode) {
   var absolutePosition = coordinates.column;
   var row = 0;
   while (coordinates.row > row) {
@@ -8,7 +8,7 @@ function toAbsoluteCursorPosition(coordinates, sourceCode) {
   return absolutePosition;
 }
 
-function toRowColumnCursorPosition(absolutePosition, sourceCode) {
+function toRowColumn(absolutePosition, sourceCode) {
   var lines = sourceCode.split('\n');
 
   var row = 0;
@@ -21,6 +21,6 @@ function toRowColumnCursorPosition(absolutePosition, sourceCode) {
 }
 
 module.exports = {
-  toAbsoluteCursorPosition: toAbsoluteCursorPosition,
-  toRowColumnCursorPosition: toRowColumnCursorPosition
+  toAbsolute: toAbsolute,
+  toRowColumn: toRowColumn
 };

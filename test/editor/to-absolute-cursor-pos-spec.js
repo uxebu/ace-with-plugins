@@ -1,4 +1,4 @@
-var toAbsoluteCursorPosition = require('../../src/editor/_util').toAbsoluteCursorPosition;
+var toAbsoluteCursorPosition = require('../../src/util/cursor-position').toAbsolute;
 
 var firstLine = 'line 0 ...0123456789';
 var secondLine = '0123456789 line1 78';

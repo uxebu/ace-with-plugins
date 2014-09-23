@@ -1,4 +1,4 @@
-var util = require('./_util');
+var cursorPosition = require('../util/cursor-position');
 var Range = ace.require('ace/range').Range;
 
 function Ace(domNodeId) {
@@ -32,7 +32,7 @@ Ace.prototype = {
   },
 
   getAbsoluteCursorPosition: function() {
-    return util.toAbsoluteCursorPosition(this._editor.selection.getCursor(), this.getContent());
+    return cursorPosition.toAbsolute(this._editor.selection.getCursor(), this.getContent());
   },
 
   setMultipleCursorsTo: function(positions) {
@@ -43,7 +43,7 @@ Ace.prototype = {
     var sourceCode = this.getContent();
     var editor = this._editor;
     positions.forEach(function(position) {
-      var rowCol = util.toRowColumnCursorPosition(position, sourceCode);
+      var rowCol = cursorPosition.toRowColumn(position, sourceCode);
       var range = new Range(rowCol.row, rowCol.column, rowCol.row, rowCol.column);
       editor.multiSelect.addRange(range);
     });
