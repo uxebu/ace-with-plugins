@@ -3,20 +3,16 @@ var esrefactor = require('esrefactor');
 function getPositionsOfCandidates(sourceCode, currentCursorPosition) {
   var context = new esrefactor.Context(sourceCode);
   var identifier = context.identify(currentCursorPosition);
-
   if (identifier === undefined) {
     return [];
   }
+  return _extractPositionsFromReferences(identifier.references);
+}
 
-  var positions = [];
-  var index = -1;
-
-  while (identifier.references.length > index + 1) {
-    index++;
-    positions.push(identifier.references[index].range[0]);
-  }
-
-  return positions;
+function _extractPositionsFromReferences(references) {
+  return references.map(function(ref) {
+    return ref.range[0];
+  });
 }
 
 var getCursorPositions = function(sourceCode, cursorPosition) {
