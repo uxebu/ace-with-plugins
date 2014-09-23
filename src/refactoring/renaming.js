@@ -20,7 +20,8 @@ function getPositionsOfCandidates(sourceCode, currentCursorPosition) {
 }
 
 var getCursorPositions = function(sourceCode, cursorPosition) {
-  var positions = renaming.getPositionsOfCandidates(sourceCode, cursorPosition);
+  // Use exports explicitly, so we can mock it in the tests. Better ideas?
+  var positions = exports.getPositionsOfCandidates(sourceCode, cursorPosition);
   if (positions.indexOf(cursorPosition) == -1) {
     var diff = _getClosestDiff(positions, cursorPosition);
     positions = positions.map(function(pos) { return pos + diff; });
@@ -36,8 +37,8 @@ function _getClosestDiff(values, value) {
   )[0];
 }
 
-var renaming = {
+var exports = {
   getPositionsOfCandidates: getPositionsOfCandidates,
   getCursorPositions: getCursorPositions
 };
-module.exports = renaming;
+module.exports = exports;
