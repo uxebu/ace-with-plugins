@@ -1,28 +1,17 @@
 var Editor = require('../../../src/editor/editor');
+var getPositionOfOccurence = require('../../../src/refactoring/renaming');
+var esRefactorInterface = require('../../../src/refactoring/esRefactorInterface');
 
 Editor.prototype._init = function () {};
-Editor.prototype.getIdentifiedReferences = function (codeAsString, position) {
-  return [1];
-}
 
-
-describe('mocking getIdentifiedReferences', function() {
-  it('should call getIdentifiedReferences with string', function(){
-    var editor = new Editor();
+describe('mocking getReferencesFromEsRefactor', function() {
+  it('should call getReferencesFromEsRefactor with string', function(){
     var code = 'foo';
     var currentCursorPosition = 0;
 
-    spyOn(editor, 'getIdentifiedReferences');
-    editor.getIdentifiedReferences(code, currentCursorPosition);
-    expect(editor.getIdentifiedReferences).toHaveBeenCalledWith(code, currentCursorPosition);
-  });
-});
+    spyOn(esRefactorInterface, 'getReferencesFromEsRefactor');
 
-describe('stub getIdentifiedReferences', function() {
-  it('should return array with one element', function(){
-    var editor = new Editor();
-    editor.getIdentifiedReferences();
-
-    expect(editor.getIdentifiedReferences()).toEqual([1]);
+    getPositionOfOccurence.getPositionOfOccurence(code, currentCursorPosition);
+    expect(esRefactorInterface.getReferencesFromEsRefactor).toHaveBeenCalledWith(code, currentCursorPosition);
   });
 });
