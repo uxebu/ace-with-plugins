@@ -1,8 +1,5 @@
-var Editor = require('../../../src/editor/editor');
-var getPositionOfOccurence = require('../../../src/refactoring/renaming');
+var renaming = require('../../../src/refactoring/renaming');
 var esRefactorInterface = require('../../../src/refactoring/esRefactorInterface');
-
-Editor.prototype._init = function () {};
 
 describe('mocking getPositionsOfReferences', function() {
   it('should call getPositionsOfReferences with string', function(){
@@ -11,8 +8,7 @@ describe('mocking getPositionsOfReferences', function() {
 
     spyOn(esRefactorInterface, 'getPositionsOfReferences');
 
-    getPositionOfOccurence.getPositionOfOccurence(code, currentCursorPosition);
+    renaming.getPositionOfOccurence(code, currentCursorPosition);
     expect(esRefactorInterface.getPositionsOfReferences).toHaveBeenCalledWith(code, currentCursorPosition);
   });
 });
-
