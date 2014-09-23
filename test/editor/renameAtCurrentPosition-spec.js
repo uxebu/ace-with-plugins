@@ -1,7 +1,7 @@
 var Editor = require('../../src/editor/editor');
 var renaming = require('../../src/refactoring/renaming');
 
-describe('Editor.renameAtCurrentPosition()', function() {
+describe('Editor.placeCursorsForRenaming()', function() {
 
   var cursorPosition = 0x42;
   var editor;
@@ -27,7 +27,7 @@ describe('Editor.renameAtCurrentPosition()', function() {
   describe('Contract(s) with `renaming` module (to get rename-info)', function() {
 
     it('should call `getCursorPositions()` with sourceCode+cursorPosition', function() {
-      editor.renameAtCurrentPosition();
+      editor.placeCursorsForRenaming();
       expect(renaming.getCursorPositions).toHaveBeenCalledWith(sourceCode, cursorPosition);
     });
 
@@ -40,13 +40,13 @@ describe('Editor.renameAtCurrentPosition()', function() {
       it('for one result', function() {
         var positions = [cursorPosition];
         fakeRenamingPositionsFound(positions);
-        editor.renameAtCurrentPosition();
+        editor.placeCursorsForRenaming();
         expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(positions);
       });
 
       it('for no result, not at all', function() {
         fakeRenamingPositionsFound([]);
-        editor.renameAtCurrentPosition();
+        editor.placeCursorsForRenaming();
         expect(aceEditor.setMultipleCursorsTo).not.toHaveBeenCalled();
       });
 
@@ -54,7 +54,7 @@ describe('Editor.renameAtCurrentPosition()', function() {
         var positions = [cursorPosition, 1, 23];
         var expectedPositions = [1, 23, cursorPosition];
         fakeRenamingPositionsFound(positions);
-        editor.renameAtCurrentPosition();
+        editor.placeCursorsForRenaming();
         expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(expectedPositions);
       });
 
