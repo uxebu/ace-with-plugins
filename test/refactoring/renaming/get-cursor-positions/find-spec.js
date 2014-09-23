@@ -77,11 +77,37 @@ describe('longer source code with various cases', function() {
   beforeEach(function() {
     sourceCode =   'abc=1;abc=2;if(abc){return Abc;}';
     // cursor pos:  012345678901234567890123456789
-    spyOn(renaming, 'getPositionsOfCandidates').andReturn([0, 6, 15]);
   });
 
-  it('when placed at the first occurence', function() {
-    var cursorPosition = 0;
-    expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([0, 6, 15]);
+  describe('find many renamables', function() {
+    beforeEach(function() {
+      spyOn(renaming, 'getPositionsOfCandidates').andReturn([0, 6, 15]);
+    });
+
+    it('when placed at the first occurence', function() {
+      var cursorPosition = 0;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([0, 6, 15]);
+    });
+
+    it('when placed at the end of the second occurence', function() {
+      var cursorPosition = 8;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([2, 8, 17]);
+    });
+  });
+
+  describe('find none or one renamable', function() {
+
+    it('placed over a variable that occurs only once', function() {
+      spyOn(renaming, 'getPositionsOfCandidates').andReturn([27]);
+      var cursorPosition = 27;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([27]);
+    });
+
+    it('placed over a non-variable that occurs only once', function() {
+      spyOn(renaming, 'getPositionsOfCandidates').andReturn([]);
+      var cursorPosition = 20;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([]);
+    });
+
   });
 });
