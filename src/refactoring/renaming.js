@@ -18,10 +18,6 @@ function _extractPositionsFromReferences(references) {
 var getCursorPositions = function(sourceCode, cursorPosition) {
   // Use `exports.*` explicitly, so we can mock it in the tests. Better ideas?
   var positions = exports.getPositionsOfCandidates(sourceCode, cursorPosition);
-  var isCursorAtBeginningOfIdentifier = positions.indexOf(cursorPosition) > -1;
-  if (isCursorAtBeginningOfIdentifier) {
-    return positions;
-  }
   var offset = _getClosestValueInArray(positions, cursorPosition);
   return _addToEachElementInArray(positions, offset);
 };
@@ -33,12 +29,12 @@ function _addToEachElementInArray(arr, valueToAdd) {
 
 function _getClosestValueInArray(values, value) {
   function calculateDistance(aValue) { return value - aValue; }
-  function aboveZero(value) { return value > 0 }
+  function notNegative(value) { return value >= 0 }
   function numericSort(a, b) { return a - b; }
 
   var sortedDistanceGreaterThanZero = values
     .map(calculateDistance)
-    .filter(aboveZero)
+    .filter(notNegative)
     .sort(numericSort)
   ;
   return sortedDistanceGreaterThanZero[0];
