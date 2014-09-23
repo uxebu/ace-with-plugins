@@ -1,13 +1,5 @@
-var renaming = require('../../../../src/refactoring/renaming');
+var renaming = require('../../../src/refactoring/renaming');
 var getCursorPositions = renaming.getCursorPositions;
-
-/*
-- all should be placed on the same letter
-
-- find all at beginning of word
-- on the second letter
-- at the end of the word
- */
 
 var sourceCode = 'xxx=1;xxx=2;';
 //  cursor pos:   01234567890...
