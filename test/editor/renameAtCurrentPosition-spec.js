@@ -14,26 +14,26 @@ describe('Editor.renameAtCurrentPosition()', function() {
     };
     editor = new Editor(aceEditor);
 
-    spyOn(renaming, 'getPositionsOfCandidates').andReturn([]);
+    spyOn(renaming, 'getCursorPositions').andReturn([]);
     spyOn(editor, 'getContent').andCallFake(function() { return sourceCode; });
     spyOn(aceEditor, 'getAbsoluteCursorPosition').andCallFake(function() {return cursorPosition;});
     spyOn(aceEditor, 'setMultipleCursorsTo');
   });
 
   function fakeRenamingPositionsFound(positions) {
-    renaming.getPositionsOfCandidates.andReturn(positions);
+    renaming.getCursorPositions.andReturn(positions);
   }
 
   describe('Contract(s) with `renaming` module (to get rename-info)', function() {
 
-    it('should call `getPositionsOfCandidates()` with sourceCode+cursorPosition', function() {
+    it('should call `getCursorPositions()` with sourceCode+cursorPosition', function() {
       editor.renameAtCurrentPosition();
-      expect(renaming.getPositionsOfCandidates).toHaveBeenCalledWith(sourceCode, cursorPosition);
+      expect(renaming.getCursorPositions).toHaveBeenCalledWith(sourceCode, cursorPosition);
     });
 
   });
 
-  describe('result from `getPositionsOfCandidates()` shall be given correctly', function() {
+  describe('result from `getCursorPositions()` shall be given correctly', function() {
 
     describe('to `setMultipleCursorsTo()`', function() {
 

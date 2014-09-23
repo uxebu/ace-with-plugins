@@ -16,7 +16,7 @@ Editor.prototype = {
 
   renameAtCurrentPosition: function() {
     var cursorPosition = this._editor.getAbsoluteCursorPosition();
-    var candidatePositions = renaming.getPositionsOfCandidates(this.getContent(), cursorPosition);
+    var candidatePositions = renaming.getCursorPositions(this.getContent(), cursorPosition);
     this._setCursorsForRenaming(candidatePositions, cursorPosition);
   },
 
