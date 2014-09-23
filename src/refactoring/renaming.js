@@ -26,12 +26,16 @@ var getCursorPositions = function(sourceCode, cursorPosition) {
 };
 
 function _getClosestDiff(values, value) {
-  function numericSort(a,b) { return a-b; }
-  return (values
-    .map(function(aValue) { return value - aValue; })
-    .filter(function(value) { return value > 0 })
+  function calculateDistance(aValue) { return value - aValue; }
+  function aboveZero(value) { return value > 0 }
+  function numericSort(a, b) { return a - b; }
+
+  var sortedDistanceGreaterThanZero = values
+    .map(calculateDistance)
+    .filter(aboveZero)
     .sort(numericSort)
-  )[0];
+  ;
+  return sortedDistanceGreaterThanZero[0];
 }
 
 var exports = {
