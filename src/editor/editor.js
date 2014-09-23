@@ -21,8 +21,8 @@ Editor.prototype = {
   },
 
   _setCursorsForRenaming: function(candidatePositions, cursorPosition) {
-    var anythingToRename = candidatePositions.length > 0;
-    if (anythingToRename) {
+    var hasAnythingToRename = candidatePositions.length > 0;
+    if (hasAnythingToRename) {
       var candidatesWithCursorAtEnd = _moveValueToEndOfArray(candidatePositions, cursorPosition);
       this._editor.setMultipleCursorsTo(candidatesWithCursorAtEnd);
     }
