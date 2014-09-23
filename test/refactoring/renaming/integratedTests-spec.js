@@ -1,4 +1,4 @@
-var Editor = require('../src/editor/editor');
+var Editor = require('../../../src/editor/editor');
 
 Editor.prototype._init = function () {};
 Editor.prototype.getIdentifiedReferences = function (codeAsString, position) {
