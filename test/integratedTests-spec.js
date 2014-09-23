@@ -1,7 +1,9 @@
 var Editor = require('../src/editor/editor');
 
 Editor.prototype._init = function () {};
-Editor.prototype.getIdentifiedReferences = function (codeAsString, position) {}
+Editor.prototype.getIdentifiedReferences = function (codeAsString, position) {
+  return [1];
+}
 
 
 describe('mocking getIdentifiedReferences', function() {
