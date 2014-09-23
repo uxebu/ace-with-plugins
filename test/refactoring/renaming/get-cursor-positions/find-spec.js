@@ -1,7 +1,12 @@
 var renaming = require('../../../../src/refactoring/renaming');
 
 var getCursorPositions = function(sourceCode, cursorPosition) {
-  return renaming.getPositionsOfCandidates(sourceCode, cursorPosition);
+  var positions = renaming.getPositionsOfCandidates(sourceCode, cursorPosition);
+  if (positions.indexOf(cursorPosition) == -1) {
+    var diff = cursorPosition - positions[0];
+    positions = positions.map(function(pos) { return pos + diff; });
+  }
+  return positions;
 };
 
 /*
@@ -34,4 +39,10 @@ describe('', function() {
     });
   });
 
+  describe('on the second letter', function() {
+    it('when placed at the first occurence', function() {
+      var cursorPosition = 1;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([1, 7]);
+    });
+  });
 });
