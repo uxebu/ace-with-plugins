@@ -93,5 +93,11 @@ describe('longer source code with various cases', function() {
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([]);
     });
 
+    it('placed on the last variable', function() {
+      spyOn(renaming, 'getPositionsOfCandidates').andReturn([4, 12, 18]);
+      var cursorPosition = 20;
+      expect(getCursorPositions('', cursorPosition)).toEqual([6, 14, 20]);
+    });
+
   });
 });

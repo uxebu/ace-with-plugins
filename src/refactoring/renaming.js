@@ -30,10 +30,11 @@ var getCursorPositions = function(sourceCode, cursorPosition) {
 };
 
 function _getClosestDiff(values, value) {
+  function numericSort(a,b) { return a-b; }
   return (values
     .map(function(aValue) { return value - aValue; })
     .filter(function(value) { return value > 0 })
-    .sort()
+    .sort(numericSort)
   )[0];
 }
 
