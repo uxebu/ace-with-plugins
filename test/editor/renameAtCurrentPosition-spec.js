@@ -1,13 +1,6 @@
 var Editor = require('../../src/editor/editor');
 var renaming = require('../../src/refactoring/renaming');
 
-/*
-* - get the positions of the renamables
-* - pass those positions to the setMultipleCursorsTo() method of editor
-* - the first position must be the current cursor position that
-*   the cursor will be set to when the renaming mode is turned off
-* */
-
 describe('Editor.renameAtCurrentPosition()', function() {
 
   var cursorPosition = 0x42;
