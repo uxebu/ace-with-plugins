@@ -4,14 +4,15 @@ var esRefactorInterface = require('../../../src/refactoring/esRefactorInterface'
 
 Editor.prototype._init = function () {};
 
-describe('mocking getReferencesFromEsRefactor', function() {
-  it('should call getReferencesFromEsRefactor with string', function(){
+describe('mocking getPositionsOfReferences', function() {
+  it('should call getPositionsOfReferences with string', function(){
     var code = 'foo';
     var currentCursorPosition = 0;
 
-    spyOn(esRefactorInterface, 'getReferencesFromEsRefactor');
+    spyOn(esRefactorInterface, 'getPositionsOfReferences');
 
     getPositionOfOccurence.getPositionOfOccurence(code, currentCursorPosition);
-    expect(esRefactorInterface.getReferencesFromEsRefactor).toHaveBeenCalledWith(code, currentCursorPosition);
+    expect(esRefactorInterface.getPositionsOfReferences).toHaveBeenCalledWith(code, currentCursorPosition);
   });
 });
+

@@ -1,8 +1,7 @@
 var esRefactorInterface = require('./esRefactorInterface');
 
 function getPositionOfOccurence(sourceCode, currentCursorPosition) {
-  var positions = esRefactorInterface.getReferencesFromEsRefactor(sourceCode, currentCursorPosition);
-  return positions;
+  return esRefactorInterface.getPositionsOfReferences(sourceCode, currentCursorPosition);
 }
 
 module.exports = {

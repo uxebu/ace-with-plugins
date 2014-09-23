@@ -1,6 +1,6 @@
 var esrefactor = require('esrefactor');
 
-function getReferencesFromEsRefactor(sourceCode, currentCursorPosition) {
+function getPositionsOfReferences(sourceCode, currentCursorPosition) {
   var context = new esrefactor.Context(sourceCode);
   var identifier = context.identify(currentCursorPosition);
 
@@ -19,5 +19,5 @@ function getReferencesFromEsRefactor(sourceCode, currentCursorPosition) {
 }
 
 module.exports = {
-  getReferencesFromEsRefactor: getReferencesFromEsRefactor
+  getPositionsOfReferences: getPositionsOfReferences
 };
