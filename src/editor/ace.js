@@ -1,12 +1,13 @@
 var cursorPosition = require('../util/cursor-position');
-var Range = ace.require('ace/range').Range;
 
-function Ace(domNodeId) {
-  this._domNodeId = domNodeId;
-  this._init();
-}
+function Ace() {}
 
 Ace.prototype = {
+
+  setDomNodeId: function(domNodeId) {
+    this._domNodeId = domNodeId;
+    this._init();
+  },
 
   _init: function() {
     ace.require("ace/ext/language_tools");
@@ -40,6 +41,7 @@ Ace.prototype = {
   },
 
   _setMarkers: function(positions) {
+    var Range = ace.require('ace/range').Range;
     var sourceCode = this.getContent();
     var editor = this._editor;
     positions.forEach(function(position) {

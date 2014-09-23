@@ -2,7 +2,7 @@
   "name": "ace-with-plugins",
   "version": "0.0.1",
   "description": "Ace editor with additional plugins",
-  "main": " ",
+  "main": "src/index",
   "directories": {
     "example": "examples"
   },
