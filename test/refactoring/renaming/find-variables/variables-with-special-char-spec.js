@@ -1,4 +1,4 @@
-var getPositionOfOccurence = require('../../../src/refactoring/renaming.js').getPositionsOfCandidates;
+var getPositionOfOccurence = require('../../../../src/refactoring/renaming.js').getPositionsOfCandidates;
 
 describe('simple source code, with special chars in occurences', function () {
   it('should return three positions', function () {
