@@ -3,11 +3,19 @@ var renaming = require('../../../../src/refactoring/renaming');
 var getCursorPositions = function(sourceCode, cursorPosition) {
   var positions = renaming.getPositionsOfCandidates(sourceCode, cursorPosition);
   if (positions.indexOf(cursorPosition) == -1) {
-    var diff = cursorPosition - positions[0];
+    var diff = _getClosestDiff(positions, cursorPosition);
     positions = positions.map(function(pos) { return pos + diff; });
   }
   return positions;
 };
+
+function _getClosestDiff(values, value) {
+  return (values
+    .map(function(aValue) { return value - aValue; })
+    .filter(function(value) { return value > 0 })
+    .sort()
+  )[0];
+}
 
 /*
 - all should be placed on the same letter
@@ -43,6 +51,23 @@ describe('', function() {
     it('when placed at the first occurence', function() {
       var cursorPosition = 1;
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([1, 7]);
+    });
+
+    it('when placed at the second occurence', function() {
+      var cursorPosition = 7;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([1, 7]);
+    });
+  });
+
+  describe('end of the variable', function() {
+    it('when placed at the first occurence', function() {
+      var cursorPosition = 2;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([2, 8]);
+    });
+
+    it('when placed at the second occurence', function() {
+      var cursorPosition = 8;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([2, 8]);
     });
   });
 });
