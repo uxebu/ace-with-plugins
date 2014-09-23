@@ -1,4 +1,4 @@
-var getPositionOfOccurence = require('../../../src/refactoring/renaming.js').getPositionsOfCandidates;
+var getPositionOfOccurence = require('../../../../src/refactoring/renaming.js').getPositionsOfCandidates;
 
 describe('find occurences in the right scope', function () {
   it('should find variable in function scope', function () {
