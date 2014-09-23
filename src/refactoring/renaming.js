@@ -1,4 +1,5 @@
 var esrefactor = require('esrefactor');
+var arrayUtil = require('../util/array');
 
 function getPositionsOfCandidates(sourceCode, currentCursorPosition) {
   var context = new esrefactor.Context(sourceCode);
@@ -15,30 +16,16 @@ function _extractPositionsFromReferences(references) {
   });
 }
 
+/**
+ * Get the cursor positions where to place renaming cursors, for identifiers
+ * found at the given `cursorPosition`.
+ */
 var getCursorPositions = function(sourceCode, cursorPosition) {
   // Use `exports.*` explicitly, so we can mock it in the tests. Better ideas?
   var positions = exports.getPositionsOfCandidates(sourceCode, cursorPosition);
-  var offset = _getClosestValueInArray(positions, cursorPosition);
-  return _addToEachElementInArray(positions, offset);
+  var offset = arrayUtil.getSmallestDiffTo(positions, cursorPosition);
+  return arrayUtil.addToEachElement(positions, offset);
 };
-
-function _addToEachElementInArray(arr, valueToAdd) {
-  function addValue(pos) { return pos + valueToAdd; }
-  return arr.map(addValue);
-}
-
-function _getClosestValueInArray(values, value) {
-  function calculateDistance(aValue) { return value - aValue; }
-  function notNegative(value) { return value >= 0 }
-  function numericSort(a, b) { return a - b; }
-
-  var sortedDistanceGreaterThanZero = values
-    .map(calculateDistance)
-    .filter(notNegative)
-    .sort(numericSort)
-  ;
-  return sortedDistanceGreaterThanZero[0];
-}
 
 var exports = {
   getPositionsOfCandidates: getPositionsOfCandidates,

@@ -1,4 +1,5 @@
 var renaming = require('../refactoring/renaming');
+var arrayUtil = require('../util/array');
 
 function Editor(editor) {
   this._editor = editor;
@@ -23,22 +24,10 @@ Editor.prototype = {
   _setCursorsForRenaming: function(candidatePositions, cursorPosition) {
     var hasAnythingToRename = candidatePositions.length > 0;
     if (hasAnythingToRename) {
-      var candidatesWithCursorAtEnd = _moveValueToEndOfArray(candidatePositions, cursorPosition);
+      var candidatesWithCursorAtEnd = arrayUtil.moveValueToEnd(candidatePositions, cursorPosition);
       this._editor.setMultipleCursorsTo(candidatesWithCursorAtEnd);
     }
   }
 };
-
-function _removeValueFromArray(values, valueToBeRemoved) {
-  var foundAt = values.indexOf(valueToBeRemoved);
-  var sliceBeforeValue = values.slice(0, foundAt);
-  var sliceAfterValue = values.slice(foundAt + 1);
-  return sliceBeforeValue.concat(sliceAfterValue);
-}
-
-function _moveValueToEndOfArray(values, valueToBeMovedToEnd) {
-  return _removeValueFromArray(values, valueToBeMovedToEnd)
-    .concat(valueToBeMovedToEnd);
-}
 
 module.exports = Editor;
