@@ -1,20 +1,27 @@
-function addToEachElement(values, valueToAdd) {
-  function addValue(pos) { return pos + valueToAdd; }
-  return values.map(addValue);
-}
+var array = {
+  addToEachElement: function(values, valueToAdd) {
+    function addValue(pos) { return pos + valueToAdd; }
+    return values.map(addValue);
+  },
 
-function getSmallestDiffTo(values, value) {
-  function calculateDistance(aValue) { return value - aValue; }
-  function notNegative(value) { return value >= 0 }
-  function numericSort(a, b) { return a - b; }
+  getSmallestDiffTo: function(values, value) {
+    function calculateDistance(aValue) { return value - aValue; }
+    function notNegative(value) { return value >= 0 }
+    function numericSort(a, b) { return a - b; }
 
-  var sortedDistanceGreaterThanZero = values
-    .map(calculateDistance)
-    .filter(notNegative)
-    .sort(numericSort)
-  ;
-  return sortedDistanceGreaterThanZero[0];
-}
+    var sortedDistanceGreaterThanZero = values
+        .map(calculateDistance)
+        .filter(notNegative)
+        .sort(numericSort)
+      ;
+    return sortedDistanceGreaterThanZero[0];
+  },
+
+  moveValueToEnd: function(values, valueToBeMovedToEnd) {
+    return _removeValueFromArray(values, valueToBeMovedToEnd)
+      .concat(valueToBeMovedToEnd);
+  }
+};
 
 function _removeValueFromArray(values, valueToBeRemoved) {
   var foundAt = values.indexOf(valueToBeRemoved);
@@ -23,13 +30,4 @@ function _removeValueFromArray(values, valueToBeRemoved) {
   return sliceBeforeValue.concat(sliceAfterValue);
 }
 
-function moveValueToEndOfArray(values, valueToBeMovedToEnd) {
-  return _removeValueFromArray(values, valueToBeMovedToEnd)
-    .concat(valueToBeMovedToEnd);
-}
-
-module.exports = {
-  addToEachElement: addToEachElement,
-  getSmallestDiffTo: getSmallestDiffTo,
-  moveValueToEnd: moveValueToEndOfArray
-};
+module.exports = array;

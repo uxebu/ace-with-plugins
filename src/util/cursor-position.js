@@ -1,26 +1,24 @@
-function toAbsolute(coordinates, sourceCode) {
-  var absolutePosition = coordinates.column;
-  var row = 0;
-  while (coordinates.row > row) {
-    absolutePosition += sourceCode.split('\n')[row].length + 1;
-    row++;
+var cursorPosition = {
+  toAbsolute: function(coordinates, sourceCode) {
+    var absolutePosition = coordinates.column;
+    var row = 0;
+    while (coordinates.row > row) {
+      absolutePosition += sourceCode.split('\n')[row].length + 1;
+      row++;
+    }
+    return absolutePosition;
+  },
+
+  toRowColumn: function(absolutePosition, sourceCode) {
+    var lines = sourceCode.split('\n');
+    var row = 0;
+    var lineLengths = 0;
+    while (absolutePosition > lineLengths + lines[row].length) {
+      lineLengths += lines[row].length + 1;
+      row++;
+    }
+    return {row: row, column: absolutePosition - lineLengths};
   }
-  return absolutePosition;
-}
-
-function toRowColumn(absolutePosition, sourceCode) {
-  var lines = sourceCode.split('\n');
-
-  var row = 0;
-  var lineLengths = 0;
-  while (absolutePosition > lineLengths + lines[row].length) {
-    lineLengths += lines[row].length + 1;
-    row++;
-  }
-  return {row: row, column: absolutePosition - lineLengths};
-}
-
-module.exports = {
-  toAbsolute: toAbsolute,
-  toRowColumn: toRowColumn
 };
+
+module.exports = cursorPosition;
