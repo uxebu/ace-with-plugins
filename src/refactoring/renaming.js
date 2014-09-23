@@ -19,6 +19,25 @@ function getPositionsOfCandidates(sourceCode, currentCursorPosition) {
   return positions;
 }
 
-module.exports = {
-  getPositionsOfCandidates: getPositionsOfCandidates
+var getCursorPositions = function(sourceCode, cursorPosition) {
+  var positions = renaming.getPositionsOfCandidates(sourceCode, cursorPosition);
+  if (positions.indexOf(cursorPosition) == -1) {
+    var diff = _getClosestDiff(positions, cursorPosition);
+    positions = positions.map(function(pos) { return pos + diff; });
+  }
+  return positions;
 };
+
+function _getClosestDiff(values, value) {
+  return (values
+    .map(function(aValue) { return value - aValue; })
+    .filter(function(value) { return value > 0 })
+    .sort()
+  )[0];
+}
+
+var renaming = {
+  getPositionsOfCandidates: getPositionsOfCandidates,
+  getCursorPositions: getCursorPositions
+};
+module.exports = renaming;
