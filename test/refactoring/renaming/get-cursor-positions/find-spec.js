@@ -71,3 +71,17 @@ describe('', function() {
     });
   });
 });
+
+describe('longer source code with various cases', function() {
+
+  beforeEach(function() {
+    sourceCode =   'abc=1;abc=2;if(abc){return Abc;}';
+    // cursor pos:  012345678901234567890123456789
+    spyOn(renaming, 'getPositionsOfCandidates').andReturn([0, 6, 15]);
+  });
+
+  it('when placed at the first occurence', function() {
+    var cursorPosition = 0;
+    expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([0, 6, 15]);
+  });
+});
