@@ -1,5 +1,4 @@
 var cursorPosition = require('../util/cursor-position');
-var highlight = require('../refactoring/highlight');
 
 function Ace() {
 }
@@ -53,12 +52,9 @@ Ace.prototype = {
     });
   },
 
-  highlightOccurences: function () {
+  highlightOccurences: function (occurencesToHighlight) {
     var Range = ace.require('ace/range').Range;
     var editor = this._editor;
-
-    var cursorPosition = this.getAbsoluteCursorPosition();
-    var occurencesToHighlight = highlight.getRangeOfOccurrence(this.getContent(), cursorPosition);
 
     occurencesToHighlight.forEach(function (position) {
       var range = new Range(position.startOfRange.row, position.startOfRange.column, position.endOfRange.row, position.endOfRange.column);

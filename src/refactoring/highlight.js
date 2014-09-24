@@ -22,7 +22,6 @@ var highlight = {
         endOfRange: absoluteEndPosition
       });
     }
-
     return occurences;
   }
 }

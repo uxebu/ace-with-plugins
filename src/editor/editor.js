@@ -1,4 +1,5 @@
 var renaming = require('../refactoring/renaming');
+var highlight = require('../refactoring/highlight');
 var arrayUtil = require('../util/array');
 
 function Editor(editor) {
@@ -31,7 +32,9 @@ Editor.prototype = {
   },
 
   highlightOccurences: function () {
-    this._editor.highlightOccurences();
+    var cursorPosition = this._editor.getAbsoluteCursorPosition();
+    var occurencesToHighlight = highlight.getRangeOfOccurrence(this.getContent(), cursorPosition);
+    this._editor.highlightOccurences(occurencesToHighlight);
   }
 };
 
