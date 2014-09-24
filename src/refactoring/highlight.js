@@ -1,3 +1,4 @@
+var CursorPosition = require('../util/cursor-position');
 var esrefactor = require('esrefactor');
 
 var highlight = {
@@ -13,11 +14,15 @@ var highlight = {
     var occurences = [];
 
     for (var i = 0; i < references.length; i++) {
+      var absoluteStartPosition = CursorPosition.toRowColumn(references[i].range[0], sourceCode);
+      var absoluteEndPosition = CursorPosition.toRowColumn(references[i].range[1], sourceCode);
+
       occurences.push({
-        startRange: references[i].range[0],
-        endOfRange: references[i].range[1]
+        startOfRange: absoluteStartPosition,
+        endOfRange: absoluteEndPosition
       });
     }
+
     return occurences;
   }
 }
