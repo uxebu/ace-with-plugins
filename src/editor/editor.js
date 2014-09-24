@@ -1,6 +1,5 @@
 var renaming = require('../refactoring/renaming');
 var arrayUtil = require('../util/array');
-var highlight = require('../refactoring/highlight')
 
 function Editor(editor) {
   this._editor = editor;
@@ -8,30 +7,31 @@ function Editor(editor) {
 
 Editor.prototype = {
 
-  setContent: function(content) {
+  setContent: function (content) {
     this._editor.setContent(content);
   },
 
-  getContent: function() {
+  getContent: function () {
     return this._editor.getContent();
   },
 
-  placeCursorsForRenaming: function() {
+  placeCursorsForRenaming: function () {
     var cursorPosition = this._editor.getAbsoluteCursorPosition();
     var candidatePositions = renaming.getCursorPositions(this.getContent(), cursorPosition);
     this._setCursorsForRenaming(candidatePositions, cursorPosition);
   },
 
-  _setCursorsForRenaming: function(candidatePositions, cursorPosition) {
+  _setCursorsForRenaming: function (candidatePositions, cursorPosition) {
     var hasAnythingToRename = candidatePositions.length > 0;
+
     if (hasAnythingToRename) {
       var candidatesWithCursorAtEnd = arrayUtil.moveValueToEnd(candidatePositions, cursorPosition);
       this._editor.setMultipleCursorsTo(candidatesWithCursorAtEnd);
     }
   },
+
   highlightOccurences: function () {
-    var cursorPosition = this._editor.getAbsoluteCursorPosition();
-    highlight.getRangeOfOccurrence(this.getContent(), cursorPosition);
+    this._editor.highlightOccurences();
   }
 };
 

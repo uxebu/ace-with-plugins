@@ -1,15 +1,17 @@
 var cursorPosition = require('../util/cursor-position');
+var highlight = require('../refactoring/highlight');
 
-function Ace() {}
+function Ace() {
+}
 
 Ace.prototype = {
 
-  setDomNodeId: function(domNodeId) {
+  setDomNodeId: function (domNodeId) {
     this._domNodeId = domNodeId;
     this._init();
   },
 
-  _init: function() {
+  _init: function () {
     ace.require("ace/ext/language_tools");
     var editor = ace.edit(this._domNodeId);
     this._editor = editor;
@@ -23,37 +25,47 @@ Ace.prototype = {
     document.getElementById(this._domNodeId).style.backgroundColor = 'white';
   },
 
-  setContent: function(content) {
+  setContent: function (content) {
     this._editor.selectAll();
     this._editor.insert(content);
   },
 
-  getContent: function() {
+  getContent: function () {
     return this._editor.getValue()
   },
 
-  getAbsoluteCursorPosition: function() {
+  getAbsoluteCursorPosition: function () {
     return cursorPosition.toAbsolute(this._editor.selection.getCursor(), this.getContent());
   },
 
-  setMultipleCursorsTo: function(positions) {
+  setMultipleCursorsTo: function (positions) {
     this._setMarkers(positions);
   },
 
-  _setMarkers: function(positions) {
+  _setMarkers: function (positions) {
     var Range = ace.require('ace/range').Range;
     var sourceCode = this.getContent();
     var editor = this._editor;
-    positions.forEach(function(position) {
+    positions.forEach(function (position) {
       var rowCol = cursorPosition.toRowColumn(position, sourceCode);
       var range = new Range(rowCol.row, rowCol.column, rowCol.row, rowCol.column);
       editor.multiSelect.addRange(range);
     });
-  }
+  },
 
-//  insertAtCursorPosition: function(s) {
-//    this._editor.insert(s);
-//  }
+  highlightOccurences: function () {
+    var Range = ace.require('ace/range').Range;
+    var editor = this._editor;
+
+    var cursorPosition = this.getAbsoluteCursorPosition();
+    var occurencesToHighlight = highlight.getRangeOfOccurrence(this.getContent(), cursorPosition);
+
+    occurencesToHighlight.forEach(function (position) {
+      var range = new Range(position.startOfRange.row, position.startOfRange.column, position.endOfRange.row, position.endOfRange.column);
+      editor.getSession().addMarker(range, "ace_selected_word", "text");
+      editor.multiSelect.addRange(range);
+    });
+  }
 };
 
 module.exports = Ace;
