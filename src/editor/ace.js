@@ -24,11 +24,17 @@ Ace.prototype = {
     document.getElementById(this._domNodeId).style.backgroundColor = 'white';
   },
 
+  removeCommand: function () {
+    this._editor.commands.removeCommand('alignCursors');
+  },
+
   bindEscKey: function (callback) {
     this._editor.commands.addCommand({
-      name: "removeHighlighting",
+      name: "singleSelection",
       bindKey: "esc",
-      exec: callback
+      exec: callback,
+      readonly: true,
+      isAvailable: function(editor) {return editor && editor.inMultiSelectMode}
     })
   },
 

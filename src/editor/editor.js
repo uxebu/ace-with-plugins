@@ -46,8 +46,11 @@ Editor.prototype = {
   },
 
   _: function () {
+    this._editor.removeCommand();
     var editor = this._editor;
     this._editor.bindEscKey(function () {
+      console.log('In esc');
+
       editor.removeHighlightedOccurrences();
     });
   }
