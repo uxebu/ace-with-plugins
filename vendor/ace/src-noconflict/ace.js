@@ -12286,6 +12286,10 @@ z-index: 6;\
 position: absolute;\
 z-index: 2;\
 }\
+.ace_marker-layer .ace_highlight-word {\
+position: absolute;\
+z-index: 2;\
+}\
 .ace_marker-layer .ace_selected-word {\
 position: absolute;\
 z-index: 4;\
@@ -16495,6 +16499,9 @@ border: 1px solid rgb(192, 192, 192);\
 }\
 .ace-tm .ace_marker-layer .ace_active-line {\
 background: rgba(0, 0, 0, 0.07);\
+}\
+.ace-tm .ace_marker-layer .ace_highlight-word {\
+background: rgba(255, 186, 0, 1);\
 }\
 .ace-tm .ace_gutter-active-line {\
 background-color : #dcdcdc;\

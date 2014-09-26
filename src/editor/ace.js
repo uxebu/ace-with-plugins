@@ -59,7 +59,7 @@ Ace.prototype = {
 
     occurrencesToHighlight.forEach(function (position) {
       var range = new Range(position.startOfRange.row, position.startOfRange.column, position.endOfRange.row, position.endOfRange.column);
-      editor.getSession().addMarker(range, "ace_active-line", "background");
+      editor.getSession().addMarker(range, "ace_highlight-word", "background");
     });
   }
 };
