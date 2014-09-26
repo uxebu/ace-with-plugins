@@ -11,6 +11,11 @@ document.getElementById('renameButton').addEventListener('click', function () {
   editor.placeCursorsForRenaming();
   editor.highlightOccurences();
   editor._editor._editor.textInput.focus(); // hack in getting back the focus
+
+  editor.getEditorSession().selection.on('changeSelection', function (e) {
+    editor.removeHighlightedOccurences();
+    editor.highlightOccurences();
+  });
 });
 
 document.getElementById('removeHighlightingButton').addEventListener('click', function () {
@@ -20,19 +25,6 @@ document.getElementById('removeHighlightingButton').addEventListener('click', fu
 
 var renamingIsActive = false;
 var onCursorChange;
-
-document.getElementById('activateRenaming').addEventListener('click', function () {
-  renamingIsActive = true;
-  editor.removeHighlightedOccurences();
-  editor.placeCursorsForRenaming();
-  editor.highlightOccurences();
-  editor._editor._editor.textInput.focus(); // hack in getting back the focus
-
-  editor.getEditorSession().selection.on('changeSelection', function (e) {
-    editor.removeHighlightedOccurences();
-    editor.highlightOccurences();
-  });
-});
 
 document.getElementById('deactivateRenaming').addEventListener('click', function () {
   renamingIsActive = false;
