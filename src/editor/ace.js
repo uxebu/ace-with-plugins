@@ -66,6 +66,10 @@ Ace.prototype = {
     return this._editor.getSession().getMarkers();
   },
 
+  getEditorSession: function () {
+    return this._editor.getSession();
+  },
+
   removeHighlightedOccurrences: function () {
     var markers = this._getMarkers();
     var markerIds = [];

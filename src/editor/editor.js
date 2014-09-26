@@ -39,6 +39,10 @@ Editor.prototype = {
 
   removeHighlightedOccurences: function(){
     this._editor.removeHighlightedOccurrences();
+  },
+
+  getEditorSession: function () {
+    return this._editor.getEditorSession();
   }
 };
 
