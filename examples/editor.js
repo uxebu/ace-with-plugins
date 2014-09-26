@@ -23,9 +23,6 @@ document.getElementById('removeHighlightingButton').addEventListener('click', fu
   editor._editor.textInput.focus(); // hack in getting back the focus
 });
 
-var renamingIsActive = false;
-var onCursorChange;
-
 document.getElementById('deactivateRenaming').addEventListener('click', function () {
   renamingIsActive = false;
   clearInterval(onCursorChange);
