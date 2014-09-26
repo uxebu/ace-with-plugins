@@ -11,3 +11,7 @@ document.getElementById('renameButton').addEventListener('click', function() {
   editor.highlightOccurences();
   editor._editor._editor.textInput.focus(); // hack in getting back the focus
 });
+
+document.getElementById('removeHighlightingButton').addEventListener('click', function () {
+  editor.removeHighlightedOccurences();
+})

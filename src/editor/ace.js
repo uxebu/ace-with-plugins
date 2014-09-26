@@ -55,12 +55,30 @@ Ace.prototype = {
   highlightOccurrences: function (occurrencesToHighlight) {
     var Range = ace.require('ace/range').Range;
     var editor = this._editor;
-    var markerIds = [];
 
     occurrencesToHighlight.forEach(function (position) {
       var range = new Range(position.startOfRange.row, position.startOfRange.column, position.endOfRange.row, position.endOfRange.column);
       editor.getSession().addMarker(range, "ace_highlight-word", "background");
     });
+  },
+
+  _getMarkers: function () {
+    return this._editor.getSession().getMarkers();
+  },
+
+  removeHighlightedOccurrences: function () {
+    var markers = this._getMarkers();
+    var markerIds = [];
+
+    for (key in markers) {
+      if (markers[key].clazz === 'ace_highlight-word') {
+        markerIds.push(markers[key].id);
+      }
+    }
+
+    for (var i = 0; i < markerIds.length; i++) {
+      this._editor.getSession().removeMarker(markerIds[i]);
+    }
   }
 };
 

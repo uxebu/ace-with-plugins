@@ -34,7 +34,11 @@ Editor.prototype = {
   highlightOccurences: function () {
     var cursorPosition = this._editor.getAbsoluteCursorPosition();
     var occurencesToHighlight = highlight.getRangeOfOccurrence(this.getContent(), cursorPosition);
-    this._editor.highlightOccurences(occurencesToHighlight);
+    this._editor.highlightOccurrences(occurencesToHighlight);
+  },
+
+  removeHighlightedOccurences: function(){
+    this._editor.removeHighlightedOccurrences();
   }
 };
 
