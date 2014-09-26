@@ -37,13 +37,21 @@ Editor.prototype = {
     this._editor.highlightOccurrences(occurencesToHighlight);
   },
 
-  removeHighlightedOccurences: function(){
+  removeHighlightedOccurences: function () {
     this._editor.removeHighlightedOccurrences();
   },
 
   getEditorSession: function () {
     return this._editor.getEditorSession();
+  },
+
+  _: function () {
+    var editor = this._editor;
+    this._editor.bindEscKey(function () {
+      editor.removeHighlightedOccurrences();
+    });
   }
+
 };
 
 module.exports = Editor;

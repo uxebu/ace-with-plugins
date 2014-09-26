@@ -1,10 +1,10 @@
 var cursorPosition = require('../util/cursor-position');
 
 function Ace() {
+
 }
 
 Ace.prototype = {
-
   setDomNodeId: function (domNodeId) {
     this._domNodeId = domNodeId;
     this._init();
@@ -22,6 +22,14 @@ Ace.prototype = {
     editor.getSession().setTabSize(2);
     document.getElementById(this._domNodeId).style.fontSize = '12px';
     document.getElementById(this._domNodeId).style.backgroundColor = 'white';
+  },
+
+  bindEscKey: function (callback) {
+    this._editor.commands.addCommand({
+      name: "removeHighlighting",
+      bindKey: "esc",
+      exec: callback
+    })
   },
 
   setContent: function (content) {
