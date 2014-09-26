@@ -52,14 +52,14 @@ Ace.prototype = {
     });
   },
 
-  highlightOccurences: function (occurencesToHighlight) {
+  highlightOccurrences: function (occurrencesToHighlight) {
     var Range = ace.require('ace/range').Range;
     var editor = this._editor;
+    var markerIds = [];
 
-    occurencesToHighlight.forEach(function (position) {
+    occurrencesToHighlight.forEach(function (position) {
       var range = new Range(position.startOfRange.row, position.startOfRange.column, position.endOfRange.row, position.endOfRange.column);
-      editor.getSession().addMarker(range, "ace_selected_word", "text");
-      editor.multiSelect.addRange(range);
+      editor.getSession().addMarker(range, "ace_active-line", "background");
     });
   }
 };
