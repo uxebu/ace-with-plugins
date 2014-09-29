@@ -25,7 +25,7 @@ Ace.prototype = {
   },
 
   removeCommand: function () {
-    this._editor.commands.removeCommand('alignCursors');
+    ace.require("ace/commands/multi_select_commands").keyboardHandler.bindKey("esc", null);
   },
 
   bindEscKey: function (callback) {
