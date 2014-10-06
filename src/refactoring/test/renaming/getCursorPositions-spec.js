@@ -1,4 +1,4 @@
-var renaming = require('../../../src/refactoring/renaming');
+var renaming = require('../../renaming');
 var getCursorPositions = renaming.getCursorPositions;
 
 var sourceCode = 'xxx=1;xxx=2;';

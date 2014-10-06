@@ -1,4 +1,4 @@
-var getPositionOfOccurence = require('../../../../src/refactoring/renaming.js').getPositionsOfCandidates;
+var getPositionOfOccurence = require('../../../renaming.js').getPositionsOfCandidates;
 
 describe('javascript token on cursor position', function () {
   it('should not find function-keyword', function () {

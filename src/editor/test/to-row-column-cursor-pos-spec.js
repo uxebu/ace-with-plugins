@@ -1,4 +1,4 @@
-var toRowColumnCursorPosition = require('../../src/util/cursor-position').toRowColumn;
+var toRowColumnCursorPosition = require('../../util/cursor-position').toRowColumn;
 
 var firstLine =  '12345';
 var secondLine = '123';

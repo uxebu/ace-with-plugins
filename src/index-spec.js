@@ -1,7 +1,7 @@
-var Editor = require('../src/editor/editor');
-var Ace = require('../src/editor/ace');
+var Editor = require('./editor/editor');
+var Ace = require('./editor/ace');
 
-var index = require('../src/index');
+var index = require('./index');
 
 describe('publicly provide', function() {
 

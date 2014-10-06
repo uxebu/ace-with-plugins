@@ -1,4 +1,4 @@
-var getPositionOfOccurence = require('../../../../src/refactoring/renaming.js').getPositionsOfCandidates;
+var getPositionOfOccurence = require('../../../renaming.js').getPositionsOfCandidates;
 
 describe('simple source code, with none or one occurence', function () {
   it('should not find variable', function () {

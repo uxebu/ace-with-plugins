@@ -1,5 +1,5 @@
-var Editor = require('../../src/editor/editor');
-var renaming = require('../../src/refactoring/renaming');
+var Editor = require('../editor');
+var renaming = require('../../refactoring/renaming');
 
 describe('Editor.placeCursorsForRenaming()', function() {
 
