@@ -8,7 +8,7 @@ var renaming = {
     if (identifier === undefined) {
       return [];
     }
-    return _extractPositionsFromReferences(identifier.references);
+    return _collectAllRangeStarts(identifier);
   },
 
   /**
@@ -22,10 +22,18 @@ var renaming = {
   }
 };
 
-function _extractPositionsFromReferences(references) {
-  return references.map(function(ref) {
+function _collectAllRangeStarts(identifier) {
+  var startPositions = [];
+  startPositions = startPositions.concat(identifier.references.map(function(ref) {
     return ref.range[0];
-  });
+  }));
+  if (identifier.declaration) {
+    var startPos = identifier.declaration.range[0];
+    if (startPositions.indexOf(startPos) == -1) {
+      startPositions.unshift(startPos); // Put it to the beginning of `startPositions`.
+    }
+  }
+  return startPositions;
 }
 
 
