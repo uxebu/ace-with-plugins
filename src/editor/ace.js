@@ -37,10 +37,10 @@ Ace.prototype = {
   },
 
   setMultipleCursorsTo: function(positions) {
-    this._setMarkers(positions);
+    this._setCursors(positions);
   },
 
-  _setMarkers: function(positions) {
+  _setCursors: function(positions) {
     var Range = ace.require('ace/range').Range;
     var sourceCode = this.getContent();
     var editor = this._editor;
