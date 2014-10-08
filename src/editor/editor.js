@@ -15,7 +15,6 @@ Editor.prototype = {
     return this._editor.getContent();
   },
 
-  placeCursorsForRenaming: function() {
     var cursorPosition = this._editor.getAbsoluteCursorPosition();
     var candidatePositions = renaming.getCursorPositions(this.getContent(), cursorPosition);
     this._setCursorsForRenaming(candidatePositions, cursorPosition);
@@ -27,6 +26,7 @@ Editor.prototype = {
       var candidatesWithCursorAtEnd = arrayUtil.moveValueToEnd(candidatePositions, cursorPosition);
       this._editor.setMultipleCursorsTo(candidatesWithCursorAtEnd);
     }
+  turnOnRenameMode: function() {
   }
 };
 
