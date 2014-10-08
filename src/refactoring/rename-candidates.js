@@ -31,7 +31,8 @@ RenameCandidates.prototype = {
     return this._candidates.map(function(ref) { return ref.nodeIndex });
   },
 
-  //isSourceCodeIdentical: function(candidates) {
+  isSourceCodeIdentical: function(candidates) {
+    return ''+this.getNodeIndexes() === ''+candidates.getNodeIndexes();
   //  var myIndexes = this.getNodeIndexes();
   //  var otherIndexes = candidates.getNodeIndexes();
   //  if (myIndexes && otherIndexes) {
@@ -39,8 +40,8 @@ RenameCandidates.prototype = {
   //      return false;
   //    }
   //  }
-  //  return true;
-  //}
+    return true;
+  }
 };
 
 module.exports = RenameCandidates;
