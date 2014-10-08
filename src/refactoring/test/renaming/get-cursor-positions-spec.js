@@ -1,4 +1,3 @@
-var renaming = require('../../renaming');
 var RenameCandidates = require('../../rename-candidates');
 var util = require('../../util');
 
