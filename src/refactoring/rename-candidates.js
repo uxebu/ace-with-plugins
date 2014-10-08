@@ -11,11 +11,8 @@ RenameCandidates.prototype = {
     return this._candidates.length;
   },
 
-  /**
-   * Get the absolute cursor positions where to place renaming cursors, for identifiers
-   * found at the given `this._cursorPosition`.
-   * Takes into account that the cursor might not stand at the beginning of the word.
-   */
+  // Takes into account that the cursor might not be positioned
+  // at the beginning of the word.
   getAbsolutePositions: function() {
     function _getStartOfRanges(refs) {
       return refs.map(function(ref) { return ref.range[0]; });
