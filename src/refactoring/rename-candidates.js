@@ -27,13 +27,13 @@ RenameCandidates.prototype = {
     return this._candidates.map(function(ref) { return ref.range });
   },
 
-  //getNodeIndexes: function() {
-  //  return this._data.nodeIndexes;
-  //},
-  //
-  //isSourceCodeIdentical: function(analyzer) {
+  getNodeIndexes: function() {
+    return this._candidates.map(function(ref) { return ref.nodeIndex });
+  },
+
+  //isSourceCodeIdentical: function(candidates) {
   //  var myIndexes = this.getNodeIndexes();
-  //  var otherIndexes = analyzer.getNodeIndexes();
+  //  var otherIndexes = candidates.getNodeIndexes();
   //  if (myIndexes && otherIndexes) {
   //    if (otherIndexes.join('-') !== myIndexes.join('-')) {
   //      return false;

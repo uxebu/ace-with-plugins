@@ -37,3 +37,23 @@ describe('getCount', function() {
   });
 
 });
+
+describe('getNodeIndexes', function() {
+
+  function getNodeIndexes() {
+    var irrelevantCursorPosition = 0;
+    var candidates = new RenameCandidates('irrelevant source code', irrelevantCursorPosition);
+    return candidates.getNodeIndexes();
+  }
+
+  it('should return 0 candidates', function() {
+    _fakeCandidates([]);
+    expect(getNodeIndexes()).toEqual([]);
+  });
+
+  it('should return 2 candidates', function() {
+    _fakeCandidates([{nodeIndex: 1}, {nodeIndex: 23}]);
+    expect(getNodeIndexes()).toEqual([1, 23]);
+  });
+
+});
