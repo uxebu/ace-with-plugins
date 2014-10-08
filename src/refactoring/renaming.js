@@ -3,6 +3,9 @@ var arrayUtil = require('../util/array');
 
 var renaming = {
   getPositionsOfCandidates: function(sourceCode, currentCursorPosition) {
+    if (sourceCode === '') {
+      return [];
+    }
     var context = new esrefactor.Context(sourceCode);
     var identifier = context.identify(currentCursorPosition);
     if (identifier === undefined) {

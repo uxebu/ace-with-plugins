@@ -1,10 +1,15 @@
 var renaming = require('../../renaming');
-var getCursorPositions = renaming.getCursorPositions;
+var RenameCodeAnalyzer = require('../../rename-code-analyzer');
+
+function getCursorPositions(sourceCode, cursorPosition) {
+  var analyzer = new RenameCodeAnalyzer(sourceCode, cursorPosition);
+  return analyzer.getCandidateAbsolutePositions();
+}
 
 var sourceCode = 'xxx=1;xxx=2;';
 //  cursor pos:   01234567890...
 
-describe('', function() {
+describe('getCursorPositions', function() {
 
   beforeEach(function() {
     spyOn(renaming, 'getPositionsOfCandidates').andReturn([0, 6]);
@@ -48,10 +53,10 @@ describe('', function() {
   });
 });
 
-describe('longer source code with various cases', function() {
+describe('longer source code and various cases', function() {
 
   beforeEach(function() {
-    sourceCode =   'abc=1;abc=2;if(abc){return Abc;}';
+    sourceCode =   'abc=1;abc=2;if(abc){print(Abc);}';
     // cursor pos:  012345678901234567890123456789
   });
 
@@ -71,7 +76,7 @@ describe('longer source code with various cases', function() {
     });
   });
 
-  describe('find none or one renamable', function() {
+  describe('find one renamable', function() {
 
     it('placed over a variable that occurs only once', function() {
       spyOn(renaming, 'getPositionsOfCandidates').andReturn([27]);
@@ -79,17 +84,26 @@ describe('longer source code with various cases', function() {
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([27]);
     });
 
+    it('placed on the last variable', function() {
+      spyOn(renaming, 'getPositionsOfCandidates').andReturn([4, 12, 18]);
+      var cursorPosition = 20;
+      expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([6, 14, 20]);
+    });
+
+  });
+
+  describe('find none renamable', function() {
+
     it('placed over a non-variable that occurs only once', function() {
       spyOn(renaming, 'getPositionsOfCandidates').andReturn([]);
       var cursorPosition = 20;
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([]);
     });
 
-    it('placed on the last variable', function() {
-      spyOn(renaming, 'getPositionsOfCandidates').andReturn([4, 12, 18]);
-      var cursorPosition = 20;
-      expect(getCursorPositions('', cursorPosition)).toEqual([6, 14, 20]);
+    it('empty source code', function() {
+      expect(getCursorPositions('', 0)).toEqual([]);
     });
 
   });
+
 });
