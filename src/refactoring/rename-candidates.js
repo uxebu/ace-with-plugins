@@ -1,36 +1,35 @@
-var renaming = require('./renaming');
+var arrayUtil = require('../util/array');
+var util = require('./util');
 
 function RenameCandidates(sourceCode, cursorPosition){
-  this._sourceCode = sourceCode;
   this._cursorPosition = cursorPosition;
-
-  var cursorPositions = renaming.getCursorPositions(this._sourceCode, this._cursorPosition);
-  var numberOfCursorPositions = cursorPositions.length;
-  var data = this._data = {
-    numberOfCursorPositions: numberOfCursorPositions,
-    absolutePositions: cursorPositions,
-    //candidateRanges: [],
-    //nodeIndexes: []
-  };
-  //if (numberOfCursorPositions) {
-  //  data.candidateRanges = renaming.getRangesOfCandidates(this._sourceCode, this._cursorPosition);
-  //  data.nodeIndexes = renaming.getNodeIndexOfCandidates(this._sourceCode, this._cursorPosition);
-  //}
+  this._candidates = util.getXXX(sourceCode, cursorPosition);
 }
 RenameCandidates.prototype = {
 
-  //getCount: function() {
-  //  return this._data.numberOfCursorPositions;
-  //},
-  //
-  getAbsolutePositions: function() {
-    return this._data.absolutePositions;
+  getCount: function() {
+    return this._candidates.length;
   },
-  //
-  //getRanges: function() {
-  //  return this._data.candidateRanges;
-  //},
-  //
+
+  /**
+   * Get the absolute cursor positions where to place renaming cursors, for identifiers
+   * found at the given `this._cursorPosition`.
+   * Takes into account that the cursor might not stand at the beginning of the word.
+   */
+  getAbsolutePositions: function() {
+    function _getStartOfRanges(refs) {
+      return refs.map(function(ref) { return ref.range[0]; });
+    }
+
+    var positions = _getStartOfRanges(this._candidates);
+    var offset = arrayUtil.getSmallestDiffTo(positions, this._cursorPosition);
+    return arrayUtil.addToEachElement(positions, offset);
+  },
+
+  getRanges: function() {
+    return this._candidates.map(function(ref) { return ref.range });
+  },
+
   //getNodeIndexes: function() {
   //  return this._data.nodeIndexes;
   //},

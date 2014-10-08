@@ -2,28 +2,6 @@ var arrayUtil = require('../util/array');
 var util = require('./util');
 
 var renaming = {
-  getPositionsOfCandidates: function(sourceCode, currentCursorPosition) {
-    //if (sourceCode === '') {
-    //  return [];
-    //}
-    //var context = new esrefactor.Context(sourceCode);
-    //var identifier = context.identify(currentCursorPosition);
-    //if (identifier === undefined) {
-    //  return [];
-    //}
-    //return _collectAllRangeStarts(identifier);
-    return _getStartOfRanges(util.getXXX(sourceCode, currentCursorPosition));
-  },
-
-  /**
-   * Get the cursor positions where to place renaming cursors, for identifiers
-   * found at the given `cursorPosition`.
-   */
-  getCursorPositions: function(sourceCode, cursorPosition) {
-    var positions = renaming.getPositionsOfCandidates(sourceCode, cursorPosition);
-    var offset = arrayUtil.getSmallestDiffTo(positions, cursorPosition);
-    return arrayUtil.addToEachElement(positions, offset);
-  },
 
   //getNodeIndexOfCandidates: function(sourceCode, currentCursorPosition) {
   //  var context = new esrefactor.Context(sourceCode);
@@ -84,9 +62,5 @@ var renaming = {
 //  }
 //  return startPositions;
 //}
-
-function _getStartOfRanges(refs) {
-  return refs.map(function(ref) { return ref.range[0]; });
-}
 
 module.exports = renaming;
