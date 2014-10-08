@@ -1,4 +1,5 @@
 var cursorPosition = require('../util/cursor-position');
+var arrayUtil = require('../util/array');
 
 function Ace() {}
 
@@ -37,10 +38,20 @@ Ace.prototype = {
   },
 
   setMultipleCursorsTo: function(positions) {
-    this._setCursors(positions);
+    var cursorPosition = this.getAbsoluteCursorPosition();
+    function getPositionsWithCurrentCursorAtEnd() {
+      // We need to have the current cursor at end, so when exiting multi select mode it is used as the cursor.
+      var hasAnyCursors = positions.length > 0;
+      if (hasAnyCursors) {
+        return arrayUtil.moveValueToEnd(positions, cursorPosition);
+      }
+      return [cursorPosition];
+    }
+
+    this._setMultipleCursorsTo(getPositionsWithCurrentCursorAtEnd());
   },
 
-  _setCursors: function(positions) {
+  _setMultipleCursorsTo: function(positions) {
     var Range = ace.require('ace/range').Range;
     var sourceCode = this.getContent();
     var editor = this._editor;
