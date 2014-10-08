@@ -1,6 +1,6 @@
 var renaming = require('./renaming');
 
-function RenameCodeAnalyzer(sourceCode, cursorPosition){
+function RenameCandidates(sourceCode, cursorPosition){
   this._sourceCode = sourceCode;
   this._cursorPosition = cursorPosition;
 
@@ -8,26 +8,26 @@ function RenameCodeAnalyzer(sourceCode, cursorPosition){
   var numberOfCursorPositions = cursorPositions.length;
   var data = this._data = {
     numberOfCursorPositions: numberOfCursorPositions,
-    cursorPositions: cursorPositions,
-    candidateRanges: [],
-    nodeIndexes: []
+    absolutePositions: cursorPositions,
+    //candidateRanges: [],
+    //nodeIndexes: []
   };
-  if (numberOfCursorPositions) {
-    data.candidateRanges = renaming.getRangesOfCandidates(this._sourceCode, this._cursorPosition);
-    data.nodeIndexes = renaming.getNodeIndexOfCandidates(this._sourceCode, this._cursorPosition);
-  }
+  //if (numberOfCursorPositions) {
+  //  data.candidateRanges = renaming.getRangesOfCandidates(this._sourceCode, this._cursorPosition);
+  //  data.nodeIndexes = renaming.getNodeIndexOfCandidates(this._sourceCode, this._cursorPosition);
+  //}
 }
-RenameCodeAnalyzer.prototype = {
+RenameCandidates.prototype = {
 
-  //getNumberOfCandidates: function() {
+  //getCount: function() {
   //  return this._data.numberOfCursorPositions;
   //},
   //
-  getCandidateAbsolutePositions: function() {
-    return this._data.cursorPositions;
+  getAbsolutePositions: function() {
+    return this._data.absolutePositions;
   },
   //
-  //getCandidateRanges: function() {
+  //getRanges: function() {
   //  return this._data.candidateRanges;
   //},
   //
@@ -47,4 +47,4 @@ RenameCodeAnalyzer.prototype = {
   //}
 };
 
-module.exports = RenameCodeAnalyzer;
+module.exports = RenameCandidates;

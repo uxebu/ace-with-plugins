@@ -1,12 +1,19 @@
 var renaming = require('../../renaming');
-var RenameCodeAnalyzer = require('../../rename-code-analyzer');
+var RenameCandidates = require('../../rename-candidates');
+var util = require('../../util');
 
 function getCursorPositions(sourceCode, cursorPosition) {
-  var analyzer = new RenameCodeAnalyzer(sourceCode, cursorPosition);
-  return analyzer.getCandidateAbsolutePositions();
+  var candidates = new RenameCandidates(sourceCode, cursorPosition);
+  return candidates.getAbsolutePositions();
 }
 function _fakeCandidatesPositions(positions) {
-  spyOn(renaming, 'getPositionsOfCandidates').andReturn(positions);
+  //spyOn(renaming, 'getPositionsOfCandidates').andReturn(positions);
+  var refs = [];
+  // Build fake refs as they get returned by `getXXX`.
+  positions.forEach(function(pos) {
+    refs.push({range: [pos, pos+1]});
+  });
+  spyOn(util, 'getXXX').andReturn(refs);
 }
 
 var sourceCode = 'xxx=1;xxx=2;';
@@ -98,7 +105,7 @@ describe('longer source code and various cases', function() {
   describe('find none renamable', function() {
 
     it('placed over a non-variable that occurs only once', function() {
-      _fakeCandidatesPositions([]);
+      _fakeCandidatesPositions([]); // TODO move this into beforeEach
       var cursorPosition = 20;
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([]);
     });

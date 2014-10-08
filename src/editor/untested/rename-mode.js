@@ -1,4 +1,4 @@
-var RenameCodeAnalyzer = require('../../refactoring/rename-code-analyzer');
+var RenameCandidates = require('../../refactoring/rename-candidates');
 var SourceCodeWatcher = require('./source-code-watcher');
 var Highlighter = require('./highlighter');
 
@@ -19,7 +19,7 @@ RenameMode.prototype = {
 
   _canSourceCodeBeParsed: function() {
     try {
-      new RenameCodeAnalyzer(this.getContent(), 0);
+      new RenameCandidates(this.getContent(), 0);
       return true;
     } catch (e) {
       // The source code cant be parsed (syntax error most probably).
@@ -27,32 +27,32 @@ RenameMode.prototype = {
     return false;
   },
 
-  _analyzer: null,
+  _candidates: null,
   _highlighter: null,
   turnOn: function() {
     var cursorPosition = this._editor.getAbsoluteCursorPosition();
     if (!this._canSourceCodeBeParsed()) {
       return;
     }
-    this._analyzer = new RenameCodeAnalyzer(this.getContent(), cursorPosition);
-    this._editor.turnOnMultipleCursorsAt(this._analyzer.getCandidateAbsolutePositions());
+    this._candidates = new RenameCandidates(this.getContent(), cursorPosition);
+    this._editor.turnOnMultipleCursorsAt(this._candidates.getAbsolutePositions());
     this._highlighter = new Highlighter(this._editor);
-    this._highlighter.updateRanges(this._analyzer.getCandidateRanges());
-    this._watcher = new SourceCodeWatcher(this._editor, this._analyzer.getNumberOfCandidates());
+    this._highlighter.updateRanges(this._candidates.getRanges());
+    this._watcher = new SourceCodeWatcher(this._editor, this._candidates.getCount());
     this._watcher.onContentOrCursorChange(this._onContentOrCursorChange.bind(this));
   },
 
   _onContentOrCursorChange: function() {
     var isSourceCodeIdentical = false;
     if (this._canSourceCodeBeParsed()) {
-      var analyzer = new RenameCodeAnalyzer(this.getContent(), this._editor.getAbsoluteCursorPosition());
-      if (analyzer.isSourceCodeIdentical(this._analyzer)) {
+      var candidates = new RenameCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
+      if (candidates.isSourceCodeIdentical(this._candidates)) {
         isSourceCodeIdentical = true;
       }
     }
 
     if (isSourceCodeIdentical) {
-      this._highlighter.updateRanges(analyzer.getCandidateRanges());
+      this._highlighter.updateRanges(candidates.getRanges());
     } else {
       this._turnOff();
     }
