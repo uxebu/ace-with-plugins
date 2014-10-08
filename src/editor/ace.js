@@ -37,7 +37,7 @@ Ace.prototype = {
     return cursorPosition.toAbsolute(this._editor.selection.getCursor(), this.getContent());
   },
 
-  setMultipleCursorsTo: function(positions) {
+  turnOnMultipleCursorsAt: function(positions) {
     var cursorPosition = this.getAbsoluteCursorPosition();
     function getPositionsWithCurrentCursorAtEnd() {
       // We need to have the current cursor at end, so when exiting multi select mode it is used as the cursor.
@@ -67,6 +67,18 @@ Ace.prototype = {
 //};
 //var m = ace.require('ace/commands/multi_select_commands');
 //m.keyboardHandler.addCommand(cmd);
+  },
+
+  turnOffMultipleCursors: function() {
+    var editor = this._editor;
+    editor.exitMultiSelectMode();
+    if (editor.inMultiSelectMode) {
+      // This may happen after the source code has become syntactically invalid (esprima threw an Error, which we caught).
+      // In that case ACE's `inVirtualSelectionMode` is still true, for whatever reason, so we try later again.
+      setTimeout(function() {
+        editor.exitMultiSelectMode();
+      }, 10);
+    }
   },
 
   onSourceCodeChange: function(cb) {
