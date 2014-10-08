@@ -1,4 +1,4 @@
-var getPositionsOfCandidates = require('../../../renaming.js').getPositionsOfCandidates;
+var getPositionsOfCandidates = require('./util').getPositionsOfCandidates;
 
 describe('javascript token on cursor position', function () {
   it('should not find function-keyword', function () {
@@ -13,7 +13,7 @@ describe('javascript token on cursor position', function () {
   });
   it('should find a function name', function () {
     var sourceCode = 'var foo = function(){}; foo();';
-    var currentCursorPosition = 5;
+    var currentCursorPosition = 4;
     expect(getPositionsOfCandidates(sourceCode, currentCursorPosition)).toEqual([4, 24]);
   });
 });

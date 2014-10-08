@@ -1,4 +1,4 @@
-var getPositionsOfCandidates = require('../../../renaming.js').getPositionsOfCandidates;
+var getPositionsOfCandidates = require('./util').getPositionsOfCandidates;
 
 describe('should find declaration ONLY', function () {
   it('function declaration', function () {
@@ -8,7 +8,7 @@ describe('should find declaration ONLY', function () {
   });
   it('variable declaration', function () {
     var sourceCode = 'var foo;';
-    var currentCursorPosition = 5;
+    var currentCursorPosition = 4;
     expect(getPositionsOfCandidates(sourceCode, currentCursorPosition)).toEqual([4]);
   });
 });

@@ -1,4 +1,4 @@
-var getPositionsOfCandidates = require('../../../renaming.js').getPositionsOfCandidates;
+var getPositionsOfCandidates = require('./util').getPositionsOfCandidates;
 
 describe('simple source code, with none or one occurence', function () {
   it('should not find variable', function () {
