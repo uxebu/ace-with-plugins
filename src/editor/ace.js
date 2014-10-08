@@ -49,6 +49,51 @@ Ace.prototype = {
       var range = new Range(rowCol.row, rowCol.column, rowCol.row, rowCol.column);
       editor.multiSelect.addRange(range);
     });
+//var cmd = {
+//  name: "ourSpecialCommand",
+//  bindKey: "esc",
+//  exec: function(editor) { console.log('WHATEVER command'); editor.exitMultiSelectMode(); }
+//};
+//var m = ace.require('ace/commands/multi_select_commands');
+//m.keyboardHandler.addCommand(cmd);
+  },
+
+  onSourceCodeChange: function(cb) {
+    this._editor.on('change', cb);
+  },
+  offSourceCodeChange: function(cb) {
+    this._editor.off('change', cb);
+  },
+  onCursorPositionsChange: function(cb) {
+    this._editor.selection.lead.on('change', cb);
+  },
+  offCursorPositionsChange: function(cb) {
+    this._editor.selection.lead.off('change', cb);
+  },
+
+  _highlightMarkers: null,
+  setHighlights: function(ranges) {
+    var Range = ace.require('ace/range').Range;
+    var sourceCode = this.getContent();
+    var editor = this._editor;
+    var markers = [];
+    ranges.forEach(function(range) {
+      var startRowCol = cursorPosition.toRowColumn(range[0], sourceCode);
+      var endRowCol = cursorPosition.toRowColumn(range[1], sourceCode);
+      var highlightRange = new Range(startRowCol.row, startRowCol.column, endRowCol.row, endRowCol.column);
+      markers.push(editor.getSession().addMarker(highlightRange, 'selected-for-renaming', 'background'));
+    });
+    this._highlightMarkers = markers;
+  },
+
+  removeHighlights: function() {
+    if (!this._highlightMarkers) {
+      return;
+    }
+    var editor = this._editor;
+    this._highlightMarkers.forEach(function(marker) {
+      editor.getSession().removeMarker(marker);
+    });
   }
 
 //  insertAtCursorPosition: function(s) {
