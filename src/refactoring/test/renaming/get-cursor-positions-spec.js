@@ -5,6 +5,9 @@ function getCursorPositions(sourceCode, cursorPosition) {
   var analyzer = new RenameCodeAnalyzer(sourceCode, cursorPosition);
   return analyzer.getCandidateAbsolutePositions();
 }
+function _fakeCandidatesPositions(positions) {
+  spyOn(renaming, 'getPositionsOfCandidates').andReturn(positions);
+}
 
 var sourceCode = 'xxx=1;xxx=2;';
 //  cursor pos:   01234567890...
@@ -12,7 +15,7 @@ var sourceCode = 'xxx=1;xxx=2;';
 describe('getCursorPositions', function() {
 
   beforeEach(function() {
-    spyOn(renaming, 'getPositionsOfCandidates').andReturn([0, 6]);
+    _fakeCandidatesPositions([0, 6]);
   });
 
   describe('at beginning of variable', function() {
@@ -62,7 +65,7 @@ describe('longer source code and various cases', function() {
 
   describe('find many renamables', function() {
     beforeEach(function() {
-      spyOn(renaming, 'getPositionsOfCandidates').andReturn([0, 6, 15]);
+      _fakeCandidatesPositions([0, 6, 15]);
     });
 
     it('when placed at the first occurence', function() {
@@ -79,13 +82,13 @@ describe('longer source code and various cases', function() {
   describe('find one renamable', function() {
 
     it('placed over a variable that occurs only once', function() {
-      spyOn(renaming, 'getPositionsOfCandidates').andReturn([27]);
+      _fakeCandidatesPositions([27]);
       var cursorPosition = 27;
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([27]);
     });
 
     it('placed on the last variable', function() {
-      spyOn(renaming, 'getPositionsOfCandidates').andReturn([4, 12, 18]);
+      _fakeCandidatesPositions([4, 12, 18]);
       var cursorPosition = 20;
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([6, 14, 20]);
     });
@@ -95,7 +98,7 @@ describe('longer source code and various cases', function() {
   describe('find none renamable', function() {
 
     it('placed over a non-variable that occurs only once', function() {
-      spyOn(renaming, 'getPositionsOfCandidates').andReturn([]);
+      _fakeCandidatesPositions([]);
       var cursorPosition = 20;
       expect(getCursorPositions(sourceCode, cursorPosition)).toEqual([]);
     });
