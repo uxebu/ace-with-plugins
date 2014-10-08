@@ -33,14 +33,6 @@ RenameCandidates.prototype = {
 
   isSourceCodeIdentical: function(candidates) {
     return ''+this.getNodeIndexes() === ''+candidates.getNodeIndexes();
-  //  var myIndexes = this.getNodeIndexes();
-  //  var otherIndexes = candidates.getNodeIndexes();
-  //  if (myIndexes && otherIndexes) {
-  //    if (otherIndexes.join('-') !== myIndexes.join('-')) {
-  //      return false;
-  //    }
-  //  }
-    return true;
   }
 };
 
