@@ -10,14 +10,14 @@ describe('Editor.turnOnRenameMode()', function() {
   beforeEach(function() {
     aceEditor = {
       getAbsoluteCursorPosition: function() {},
-      setMultipleCursorsTo: function() {}
+      turnOnMultipleCursorsAt: function() {}
     };
     editor = new Editor(aceEditor);
 
     spyOn(renaming, 'getCursorPositions').andReturn([]);
     spyOn(editor, 'getContent').andCallFake(function() { return sourceCode; });
     spyOn(aceEditor, 'getAbsoluteCursorPosition').andCallFake(function() {return cursorPosition;});
-    spyOn(aceEditor, 'setMultipleCursorsTo');
+    spyOn(aceEditor, 'turnOnMultipleCursorsAt');
   });
 
   function fakeRenamingPositionsFound(positions) {
@@ -35,19 +35,19 @@ describe('Editor.turnOnRenameMode()', function() {
 
   describe('result from `getCursorPositions()` shall be given correctly', function() {
 
-    describe('to `setMultipleCursorsTo()`', function() {
+    describe('to `turnOnMultipleCursorsAt()`', function() {
 
       it('for one result', function() {
         var positions = [cursorPosition];
         fakeRenamingPositionsFound(positions);
         editor.turnOnRenameMode();
-        expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(positions);
+        expect(aceEditor.turnOnMultipleCursorsAt).toHaveBeenCalledWith(positions);
       });
 
       it('for no result, not at all', function() {
         fakeRenamingPositionsFound([]);
         editor.turnOnRenameMode();
-        expect(aceEditor.setMultipleCursorsTo).not.toHaveBeenCalled();
+        expect(aceEditor.turnOnMultipleCursorsAt).not.toHaveBeenCalled();
       });
 
       it('for many results, with the current cursor position as the last element', function() {
@@ -55,7 +55,7 @@ describe('Editor.turnOnRenameMode()', function() {
         var expectedPositions = [1, 23, cursorPosition];
         fakeRenamingPositionsFound(positions);
         editor.turnOnRenameMode();
-        expect(aceEditor.setMultipleCursorsTo).toHaveBeenCalledWith(expectedPositions);
+        expect(aceEditor.turnOnMultipleCursorsAt).toHaveBeenCalledWith(expectedPositions);
       });
 
       it('in case of an error, not at all', function() {
