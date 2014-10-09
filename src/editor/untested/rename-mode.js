@@ -44,8 +44,9 @@ RenameMode.prototype = {
 
   _onContentOrCursorChange: function() {
     var isSourceCodeIdentical = false;
+    var candidates;
     if (this._canSourceCodeBeParsed()) {
-      var candidates = new RenameCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
+      candidates = new RenameCandidates(this.getContent(), this._editor.getAbsoluteCursorPosition());
       if (candidates.isSourceCodeIdentical(this._candidates)) {
         isSourceCodeIdentical = true;
       }

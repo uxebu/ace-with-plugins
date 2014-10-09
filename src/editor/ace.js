@@ -11,7 +11,7 @@ Ace.prototype = {
   },
 
   _init: function() {
-    ace.require("ace/ext/language_tools");
+    ace.require('ace/ext/language_tools');
     var editor = ace.edit(this._domNodeId);
     this._editor = editor;
     editor.getSession().setMode('ace/mode/javascript');
